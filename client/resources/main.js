@@ -8,6 +8,8 @@ window.onload = function() {
 
     // add/update product
     document.getElementById('product-btn').onclick = function(event) {
+        window.location.href='https://google.com';
+/*
         console.log("hioi");
         event.preventDefault();
         console.log("hii");
@@ -19,6 +21,7 @@ window.onload = function() {
         } else {
             editProduct();
         }
+        */
     }
 }
 

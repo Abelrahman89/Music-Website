@@ -26,9 +26,9 @@ module.exports = class User {
             throw console.error("Not Found");
         }
     }
-    static getByUserName(userName) {
+    static getByUserName(userName,password) {
      //   console.log('userName'+userName);
-        let index = users.findIndex(b => b.username == userName);
+        let index = users.findIndex(b =>( b.username == userName && b.password==password));
         if (index > -1) {
             return users[index];
         }
