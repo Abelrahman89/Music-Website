@@ -1,6 +1,6 @@
 window.onload = function() {
-    getProducts();
-    console.log("hioei");
+   
+   
     document.getElementById('nav-home').onclick = function(event) {
         event.preventDefault();
         getProducts();
