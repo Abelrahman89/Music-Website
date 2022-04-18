@@ -1,0 +1,12 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "musicApp.js",
+  "scripts": {
+    "start": "nodemon musicApp.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
