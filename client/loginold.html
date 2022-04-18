@@ -18,9 +18,8 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Music </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" href="#">Music Project</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -28,14 +27,13 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#" id="nav-home">Home</a>
                         </li>
-                        
+                       
+                       
                     </ul>
                     <form class="d-flex">
-                        <input class="form-control me-2" type="text" placeholder="username" id="username"
-                            aria-label="User Name">
-
-                        <input class="form-control me-2" type="password" placeholder="password" id="password"
-                            aria-label="Password">
+                        <input class="form-control me-2" type="text" placeholder="username" id="username" aria-label="User Name">
+                        
+                        <input class="form-control me-2" type="password" placeholder="password" id="password" aria-label="Password">
                         <button class="btn btn-outline-success" type="submit" id="login-bttn">login</button>
                     </form>
                 </div>
@@ -44,7 +42,7 @@
     </header>
 
     <main>
-        <br>
+     <!--   <br>
         <div class="container marketing">
             <div id="products" class="row">
             </div>
@@ -52,48 +50,40 @@
             <hr class="featurette-divider">
 
             <div class="row featurette">
-                <!--/////////////////-->
-
-            
-
-                <h1>Music Samples</h1>
-
-                <table id="customers">
-                  <tr>
-                    <th style=" text-align: center;width: 10%;">Id</th>
-                    <th style="  text-align: center ; width: 40%;">Title</th>
-                    <th style=" text-align: center ;width: 20%;">Release Date</th>
-                    <th style=" text-align: center ;width: 20%;">Add to your PlayList</th>
-                  </tr>
-                  <tr>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Maria Anders</td>
-                    <td>Germany</td>
-                    <td>  <button class="btn btn-outline-success" type="submit" id="add-song">add to playlist</button></td>
-                  </tr>
-                  <tr>
-                    <td>Berglunds snabbköp</td>
-                    <td>Christina Berglund</td>
-                    <td>Sweden</td>
-                    <td style="margin:auto">  <button class="btn btn-outline-success" type="submit" id="add-song">add to playlist</button></td>
-                  </tr>
-                  <tr>
-                    <td>Centro comercial Moctezuma</td>
-                    <td>Francisco Chang</td>
-                    <td>Mexico</td>
-                    <td style="margin:auto">  <button class="btn btn-outline-success" type="submit" id="add-song">add to playlist</button></td>
-                  </tr>
-                 
-                 
-                </table>
-                
-
-             
-                <!--////////////////-->
-
                 <div class="col-md-12">
-
+                    
                     <p class="lead">
+                       <!-- <form id="product-form">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">User Name</label>
+                                <input type="text" class="form-control" id="username" >
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" >
+                            </div>
+                           
+
+                            <button type="submit" class="btn btn-primary" id="product-btn">Login</button>
+                        </form> 
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+    -->
+    <br>
+    <div class="container marketing">
+        <div id="products" class="row">
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-12">
+                <h2 class="featurette-heading" id="product-heading">Add a new Product</h2>
+                <p class="lead">
                     <form id="product-form">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
@@ -109,12 +99,12 @@
                             <textarea class="form-control" id="description" rows="3"></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-primary" id="product-btn">add</button>
+                        <button type="submit" class="btn btn-primary" id="product-btn">Submit</button>
                     </form>
-                    </p>
-                </div>
+                </p>
             </div>
         </div>
+    </div>
 
     </main>
 

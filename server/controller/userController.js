@@ -4,7 +4,7 @@ const user=require('../model/user');
 
 exports.getByUserName=(req,res,next)=>{
 
-    res.status(200).json(user.getByUserName(req.query.username));
+    res.status(200).json(user.getByUserName(req.query.username,req.query.password));
 }
 
 exports.update=(req,res,next)=>{

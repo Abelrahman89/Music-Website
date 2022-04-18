@@ -1,6 +1,21 @@
 window.onload = function() {
-   
-   
+
+    document.getElementById('login-bttn').onclick = function(event) {
+      
+        event.preventDefault();
+        console.log("log");
+    
+        if (!document.getElementById('login-bttn').dataset.id) {
+            console.log("hieeei");
+            login();
+            
+        } else {
+            editProduct();
+        }
+    }
+
+    getProducts();
+    console.log("hioei");
     document.getElementById('nav-home').onclick = function(event) {
         event.preventDefault();
         getProducts();
@@ -8,27 +23,51 @@ window.onload = function() {
 
     // add/update product
     document.getElementById('product-btn').onclick = function(event) {
-        window.location.href='https://google.com';
-/*
         console.log("hioi");
         event.preventDefault();
         console.log("hii");
        // console("wesdsdsd");
         if (!document.getElementById('product-btn').dataset.id) {
             console.log("hieeei");
-      
-            addProduct();
+            login();
+            //addProduct();
         } else {
             editProduct();
         }
-        */
     }
 }
 
+
+async function login() {
+    let username= document.getElementById('username').value;
+    let password=document.getElementById('password').value;
+    let url ='http://localhost:4040/users?username='+username+'&&password='+password;
+    console.log('url'+url);
+    let products = [];
+    products= await fetch(url).then(response => response.json());
+   if (products.username==username)
+    {
+        console.log("success");
+    }
+    else   
+    alert("sorry username or password incorrect");
+  
+ }
+
 async function getProducts() {
-    console.log("hi");
-    let products = await fetch('http://localhost:3000/products/').then(response => response.json());
-    console.log("productsindex"+products);
+    let products = [ {
+        "id": 1,
+        "title": "aaaaa",
+        "price": 12,
+        "description": "sdsdssdsd"
+    },
+    {
+        "id": 3,
+        "title": "ssdsdsd",
+        "price": 12,
+        "description": "rrrrr"
+    }];
+    
     products.forEach(prod => renderProduct(prod));
 }
 
@@ -37,15 +76,21 @@ function renderProduct(prod) {
     const div = document.createElement('div');
     div.classList = 'col-lg-4';
     div.id = prod.id;
-    div.innerHTML = `<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
-    <title>Placeholder</title>
+    div.innerHTML = `<svg class="bd-placeholder-img rounded-circle" width="140" height="140"  aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
+   
     <rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777"
         dy=".3em">140x140</text>
     </svg>`;
+  /*  div.innerHTML = `<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
+    <title>Placeholder</title>
+    <rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777"
+        dy=".3em">140x140</text>
+    </svg>`;*/
 
+    const h3 = document.createElement('h3');
     const h2 = document.createElement('h2');
     h2.textContent = prod.title;
-
+    h3.textContent = "test";
     const price = document.createElement('p');
     price.textContent = prod.price;
 
@@ -53,6 +98,7 @@ function renderProduct(prod) {
     description.textContent = prod.description;
 
     div.appendChild(h2);
+    div.appendChild(h3);
     div.appendChild(price);
     div.appendChild(description);
 
@@ -93,6 +139,7 @@ function renderProduct(prod) {
 
 
 async function addProduct() {
+    console.log("hi");
 
     let result = await fetch('http://localhost:3000/products/', {
         method: 'POST',
