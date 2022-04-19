@@ -5,9 +5,38 @@ let firstSong = [{
     id: 00000,
     title: "testetsts"
 }];
+let stausLogin = "";
 let numberOflements = 0;
 window.onload = function () {
+    let historystatus = localStorage.getItem('stausLoginHistory');
+    let userName = localStorage.getItem("userName");
+    let password = localStorage.getItem("password");
+    // console.log("userName" + userName);
+    // console.log("password" + password);
+    // console.log("historystatus" + historystatus);
+    if (historystatus == "stausisLogin") {
+        let userId = localStorage.getItem("userId");
+        // let userName = localStorage.getItem("userName");
+        // let password = localStorage.getItem("password");
 
+
+
+
+        //   console.log("password"+password);
+        //   console.log("userName"+userName);
+
+        if (password !== 'undefined') {
+            let usernameElement = document.getElementById('username');
+
+            let passwordElement = document.getElementById('password');
+
+            usernameElement.value = userName;
+            passwordElement.value = password;
+
+            login();
+        }
+
+    }
     getSongs();
 
     SwitchButtons('login-bttn');
@@ -38,6 +67,8 @@ window.onload = function () {
             console.log('logout');
 
             SwitchButtons('logout-bttn');
+
+            stausLogin = "stausisLogout";
         }
 
     }
@@ -45,22 +76,40 @@ window.onload = function () {
     //search by song title
     document.getElementById('search-bttn').onclick = function (event) {
 
-         event.preventDefault();
+        event.preventDefault();
         if (!document.getElementById('search-bttn').dataset.id) {
-        console.log("search");
-        searchBySongTitle();
-        /*if (!document.getElementById('search-bttn').dataset.id) {
-            console.log("hieeei");
-           searchBySongTitle();
-
-        } 
-        */
-    }
+            console.log("search");
+            searchBySongTitle();
+            /*if (!document.getElementById('search-bttn').dataset.id) {
+                console.log("hieeei");
+               searchBySongTitle();
+    
+            } 
+            */
+        }
     }
 
 
 }
-
+window.onbeforeunload = function () {
+    // console.log("uss" + stausLogin);
+    // console.log("uss" + users.username);
+    //localStorage.setItem("name", "abdelrahman");
+    localStorage.setItem("userId", users.username);
+    localStorage.setItem("userName", users.username);
+    localStorage.setItem("password", users.password);
+    localStorage.setItem("stausLoginHistory", stausLogin);
+    /* localStorage.setItem("userId", users.username);
+     localStorage.setItem("userId", users.username);
+     localStorage.setItem("userId", users.username);
+     /*localStorage.setItem("name", $('#inputName').val());
+     localStorage.setItem("email", $('#inputEmail').val());
+     localStorage.setItem("phone", $('#inputPhone').val());
+     localStorage.setItem("subject", $('#inputSubject').val());
+     localStorage.setItem("detail", $('#inputDetail').val());
+     // ...
+     */
+}
 
 async function login() {
     //  songs = [];
@@ -75,6 +124,8 @@ async function login() {
         console.log("success");
         SwitchButtons('logout-bttn');
         getPlayListByUserId();
+        stausLogin = "stausisLogin";
+        console.log("login" + stausLogin);
     }
     else
         alert("sorry username or password incorrect");
@@ -227,16 +278,16 @@ async function searchBySongTitle() {
     console.log('sdsdsdsdsd');
     let songtitle = document.getElementById('songtitle').value;
     console.log('songtitle' + songtitle);
-    if(songtitle!==''){
-    let url = 'http://localhost:4040/songs/song?title=' + songtitle;
-    console.log('url' + url);
+    if (songtitle !== '') {
+        let url = 'http://localhost:4040/songs/song?title=' + songtitle;
+        console.log('url' + url);
 
-    songs = await fetch(url).then(response => response.json());
-    const tbodyEl = document.getElementById("musiclist");
+        songs = await fetch(url).then(response => response.json());
+        const tbodyEl = document.getElementById("musiclist");
 
-    tbodyEl.innerHTML = ``;
-    for (let i = 0; i < songs.length; i++) {
-        tbodyEl.innerHTML += `
+        tbodyEl.innerHTML = ``;
+        for (let i = 0; i < songs.length; i++) {
+            tbodyEl.innerHTML += `
             <tr>
                 <td>${songs[i].id}</td>
                 <td>${songs[i].title}</td>
@@ -246,12 +297,12 @@ async function searchBySongTitle() {
             </tr>
         `;
 
-    }
+        }
 
-}
-else{
-    getSongs();
-}
+    }
+    else {
+        getSongs();
+    }
 
 
 }
@@ -264,32 +315,32 @@ else{
 
 
 async function addSongFunction(i) {
-  //  console.log('user' + users.length);
-    if (users.length<=0){
-   alert("You Should Login First");
-    }
-    else{
-        let cnt = await serchByuserAndSongId(users.id, songs[i].id);
-
-    if (cnt > 0) {
-        alert("sorry you added this song before");
+    //  console.log('user' + users.length);
+    if (users.length <= 0) {
+        alert("You Should Login First");
     }
     else {
+        let cnt = await serchByuserAndSongId(users.id, songs[i].id);
 
-
-        let cnt = await serchByuserAndSongId(users.id, 999999);
-
-        if (cnt <= 0) {
-            deletefirstRow();
+        if (cnt > 0) {
+            alert("sorry you added this song before");
         }
+        else {
 
 
-        addSonginplayList(songs[i].id, songs[i].title);
-        numberOflements++;
-        console.log('numberOflements' + numberOflements);
+            let cnt = await serchByuserAndSongId(users.id, 999999);
 
-        const tbodyE2 = document.getElementById("tb2");
-        tbodyE2.innerHTML += `
+            if (cnt <= 0) {
+                deletefirstRow();
+            }
+
+
+            addSonginplayList(songs[i].id, songs[i].title);
+            numberOflements++;
+            console.log('numberOflements' + numberOflements);
+
+            const tbodyE2 = document.getElementById("tb2");
+            tbodyE2.innerHTML += `
         <tr id=${i}>
             <td>${songs[i].id}</td>
             <td>${songs[i].title}</td>
@@ -297,11 +348,11 @@ async function addSongFunction(i) {
             <td><button class="deleteBtn"  onclick="deleteSongFunction(${i})" id="remove-song"${i}>Delete</button></td>
         </tr>
     `;
+        }
+        // playListSongs = [];
+        //getPlayListByUserIdwithoutRender();
+        // console.log('read'+playListSongs[0].songs);
     }
-    // playListSongs = [];
-    //getPlayListByUserIdwithoutRender();
-    // console.log('read'+playListSongs[0].songs);
-}
 }
 async function renderPlayList() {
     const tbodyE2 = document.getElementById("tb2");
@@ -369,7 +420,7 @@ async function renderPlayList() {
     
         }
         */
-    }
+}
 
 function clearPlayList(j) {
     //  console.log('hi' + i);
