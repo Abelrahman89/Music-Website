@@ -45,7 +45,8 @@ window.onload = function () {
     //search by song title
     document.getElementById('search-bttn').onclick = function (event) {
 
-        //  event.preventDefault();
+         event.preventDefault();
+        if (!document.getElementById('search-bttn').dataset.id) {
         console.log("search");
         searchBySongTitle();
         /*if (!document.getElementById('search-bttn').dataset.id) {
@@ -54,6 +55,7 @@ window.onload = function () {
 
         } 
         */
+    }
     }
 
 
@@ -225,13 +227,14 @@ async function searchBySongTitle() {
     console.log('sdsdsdsdsd');
     let songtitle = document.getElementById('songtitle').value;
     console.log('songtitle' + songtitle);
+    if(songtitle!==''){
     let url = 'http://localhost:4040/songs/song?title=' + songtitle;
     console.log('url' + url);
 
     songs = await fetch(url).then(response => response.json());
     const tbodyEl = document.getElementById("musiclist");
 
-    let st = '';
+    tbodyEl.innerHTML = ``;
     for (let i = 0; i < songs.length; i++) {
         tbodyEl.innerHTML += `
             <tr>
@@ -244,6 +247,11 @@ async function searchBySongTitle() {
         `;
 
     }
+
+}
+else{
+    getSongs();
+}
 
 
 }
