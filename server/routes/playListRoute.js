@@ -4,7 +4,7 @@ const router=express.Router();
 
 router.get('/:userId', playListController.getPlayListByUserId);
 
-
+router.get('/:userId/:songId/', playListController.getByUserIdSongId);
 router.get('/', playListController.getPlayLists);
 
 router.post('/', playListController.save);

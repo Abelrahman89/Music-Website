@@ -59,6 +59,18 @@ async function login() {
         alert("sorry username or password incorrect");
 
 }
+
+async function serchByuserAndSongId(userId,songId) {
+
+
+    let url = 'http://localhost:4040/playLists' + userId + '/' + songId;
+    
+console.log('urlget'+url);
+    let cnt2 = await fetch(url).then(response => response.json());
+    console.log('cnt2'+cnt2);
+    return cnt2;
+
+}
 async function getSongs() {
     for (let i = 0; i < songs.length; i++) {
         clearPlayList(i);
@@ -232,28 +244,29 @@ function addSongFunction(i) {
         */
   //  playListSongs = [];
   //   getPlayListByUserIdwithoutRender();
-    let cnt = 0;
-    console.log('numberOflements' + numberOflements);
-    if(numberOflements>0){
-    try {
-        /*console.log('h' + songs[i].id);
-        console.log('s' + playListSongs[0].songs[0]);*/
-        cnt = playListSongs.songs.findIndex(e => e.id == songs[i].id);
-      //  console.log('cnt' + cnt);
-    } catch (error) {
-       /* console.log('bug');
-        cnt =-1;*/
-     cnt=   firstSong.findIndex(e => e.id == songs[i].id);
-        //cnt=0;
-    }
-}
-else
-{
-    let newsong = { id: songs[i].id, title: songs[i].title };
-    console.log('newsong'+newsong);
-    firstSong.push(newsong);
-    console.log('firstSong'+firstSong[1]);
-}
+//     let cnt = 0;
+//     console.log('numberOflements' + numberOflements);
+//     if(numberOflements>0){
+//     try {
+//         /*console.log('h' + songs[i].id);
+//         console.log('s' + playListSongs[0].songs[0]);*/
+//         cnt = playListSongs.songs.findIndex(e => e.id == songs[i].id);
+//       //  console.log('cnt' + cnt);
+//     } catch (error) {
+//        /* console.log('bug');
+//         cnt =-1;*/
+//      cnt=   firstSong.findIndex(e => e.id == songs[i].id);
+//         //cnt=0;
+//     }
+// }
+// else
+// {
+//     let newsong = { id: songs[i].id, title: songs[i].title };
+//     console.log('newsong'+newsong);
+//     firstSong.push(newsong);
+//     console.log('firstSong'+firstSong[1]);
+// }
+let   cnt=serchByuserAndSongId(users.id,songs[i].id);
 console.log('cntttt'+cnt);
     if (cnt > 0) {
         alert("sorry you added this song before");

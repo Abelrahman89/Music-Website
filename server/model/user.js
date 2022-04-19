@@ -1,4 +1,5 @@
-let users = [{ id: 1,username: "abdo", password: "123456",token:{createdDate:"04-17-2022",tokentext:"123456789"}}
+let users = [{ id: 1,username: "abdo", password: "123456",token:{createdDate:"04-17-2022",tokentext:"123456789"}},
+{ id: 2,username: "ahmed", password: "123456",token:{createdDate:"04-17-2022",tokentext:"123456789"}}
 ];
 let cnt = 1;
 module.exports = class User {

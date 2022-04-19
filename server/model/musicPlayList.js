@@ -14,9 +14,9 @@ module.exports = class playList {
     }
     save() {
         let index = playLists.findIndex(b => b.userId == this.userId);
-        console.log("body" + index + "this.userId" + this.userId);
+        // console.log("body" + index + "this.userId" + this.userId);
         if (index > -1) {
-            console.log("hi");
+            // console.log("hi");
             playLists.splice(index, 1, this);
         }
         else {
@@ -44,7 +44,31 @@ module.exports = class playList {
             return playLists[playListIndex];
         }
         else {
-            throw console.error("Not Found");
+            let newPlayList = [{ userId: userId, playListId: 1, songs: [] }];
+
+
+            //throw console.error("Not Found");
+            return newPlayList;
+        }
+    }
+
+    static getByUserIdSongId(userId, songId) {
+
+        let playListIndex = playLists.findIndex(b => b.userId == userId);
+        console.log('in' + playListIndex);
+        if (playListIndex > -1) {
+            // return playLists[playListIndex];
+            let songs = playLists[playListIndex].songs;
+            console.log('ss' + songs);
+
+            let cnt = songs.findIndex(e => e.id == songId);
+            console.log('cnt'+cnt);
+            if (cnt > -1) { return 1; }
+            else { return 0; }
+        }
+        else {
+
+            return 0;
         }
     }
 
@@ -54,7 +78,7 @@ module.exports = class playList {
         //console.log('p'+p);
         let songs = p.songs.filter(s => s.id != songId);
         //console.log('sds'+  songs[2].id);
-        p.songs=songs;
+        p.songs = songs;
         //console.log('songsp'+  p.songs);
         playLists.slice(index, 1, p);
 
