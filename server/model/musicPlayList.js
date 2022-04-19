@@ -57,6 +57,27 @@ module.exports = class playList {
         let playListIndex = playLists.findIndex(b => b.userId == userId);
         console.log('in' + playListIndex);
         if (playListIndex > -1) {
+            if (songId==999999)
+            {
+                console.log("999");
+             
+              try {
+                let songs = playLists[playListIndex].songs;
+                let v=songs.length;
+                if(v>0)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+              } catch (error) {
+                return 0;
+              }
+            return 1;
+            }
+            else{
             // return playLists[playListIndex];
             let songs = playLists[playListIndex].songs;
             console.log('ss' + songs);
@@ -65,12 +86,15 @@ module.exports = class playList {
             console.log('cnt'+cnt);
             if (cnt > -1) { return 1; }
             else { return 0; }
+            }
         }
         else {
 
             return 0;
         }
     }
+
+ 
 
     static delete(userId, songId) {
         let index = playLists.findIndex(b => b.userId == userId);

@@ -1,14 +1,16 @@
 let songs = [];
 let playListSongs = [];
 let users = [];
-let firstSong=[{id: 00000,
-title: "testetsts"}];
+let firstSong = [{
+    id: 00000,
+    title: "testetsts"
+}];
 let numberOflements = 0;
 window.onload = function () {
-    SwitchButtons('login-bttn');
+
     getSongs();
 
-
+    SwitchButtons('login-bttn');
     //login
 
     document.getElementById('login-bttn').onclick = function (event) {
@@ -21,6 +23,23 @@ window.onload = function () {
             login();
 
         }
+    }
+    document.getElementById('logout-bttn').onclick = function (event) {
+        //event.preventDefault();
+        if (!document.getElementById('logout-bttn').dataset.id) {
+            let songs = [];
+            let playListSongs = [];
+            let users = [];
+            let firstSong = [{
+                id: 00000,
+                title: "testetsts"
+            }];
+            let numberOflements = 0;
+            console.log('logout');
+
+            SwitchButtons('logout-bttn');
+        }
+
     }
 
     //search by song title
@@ -60,14 +79,14 @@ async function login() {
 
 }
 
-async function serchByuserAndSongId(userId,songId) {
+async function serchByuserAndSongId(userId, songId) {
 
-console.log('userId'+userId,songId);
+    console.log('userId' + userId, songId);
     let url = 'http://localhost:4040/playLists/' + userId + '/' + songId;
-    
-console.log('urlget'+url);
+
+    console.log('urlget' + url);
     let cnt2 = await fetch(url).then(response => response.json());
-    console.log('cnt2'+cnt2);
+    console.log('cnt2' + cnt2);
     return cnt2;
 
 }
@@ -108,7 +127,7 @@ async function getPlayListByUserIdwithoutRender() {
 
     playListSongs = await fetch(url).then(response => response.json());
 
-   
+
 
 
 }
@@ -122,8 +141,10 @@ async function getPlayListByUserId() {
     console.log('url' + url);
 
     playListSongs = await fetch(url).then(response => response.json());
+    //let x=await fetch(url).then(response => response.json());
+    //console.log("length"+playListSongs.songs.length);
+    //console.log("lengthhhhh"+playListSongs.songs);
 
-   
 
     renderPlayList();
 
@@ -138,7 +159,7 @@ async function addSonginplayList(songId, songTitle) {
     } catch (error) {
         cnt = 0;
     }
-console.log('cnt'+cnt);
+    console.log('cnt' + cnt);
     if (cnt > 0) {
         let newsong = { id: songId, title: songTitle };
         playListSongs.songs.push(newsong);
@@ -147,13 +168,13 @@ console.log('cnt'+cnt);
         console.log('usid' + users.id);
         let newPlayList = [{ userId: users.id, playListId: 1, songs: [{ id: songId, title: songTitle }] }];
         playListSongs = newPlayList;
-       // let newsong = [{ id: songId, title: songTitle }];
+        // let newsong = [{ id: songId, title: songTitle }];
         //playListSongs.songs = newsong;
         /* console.log('uid'+playListSongs.songs[0].id);
          console.log('uid'+playListSongs[0].userId);
          */
 
-         console.log('ss'+playListSongs[0].songs);
+        console.log('ss' + playListSongs[0].songs);
     }
 
     if (cnt > 0) {
@@ -235,20 +256,29 @@ async function searchBySongTitle() {
 
 
 async function addSongFunction(i) {
-   
-let   cnt=await serchByuserAndSongId(users.id,songs[i].id);
-console.log('cntttt'+cnt);
+  //  console.log('user' + users.length);
+    if (users.length<=0){
+   alert("You Should Login First");
+    }
+    else{
+        let cnt = await serchByuserAndSongId(users.id, songs[i].id);
+
     if (cnt > 0) {
         alert("sorry you added this song before");
     }
     else {
-  
 
+
+        let cnt = await serchByuserAndSongId(users.id, 999999);
+
+        if (cnt <= 0) {
+            deletefirstRow();
+        }
 
 
         addSonginplayList(songs[i].id, songs[i].title);
         numberOflements++;
-        console.log('numberOflements'+numberOflements);
+        console.log('numberOflements' + numberOflements);
 
         const tbodyE2 = document.getElementById("tb2");
         tbodyE2.innerHTML += `
@@ -260,19 +290,18 @@ console.log('cntttt'+cnt);
         </tr>
     `;
     }
-   // playListSongs = [];
-   //getPlayListByUserIdwithoutRender();
-  // console.log('read'+playListSongs[0].songs);
+    // playListSongs = [];
+    //getPlayListByUserIdwithoutRender();
+    // console.log('read'+playListSongs[0].songs);
 }
-function renderPlayList() {
-    // console.log('e.target.classList'+event.target);
-
-    console.log('hi1');
+}
+async function renderPlayList() {
     const tbodyE2 = document.getElementById("tb2");
-    //let cnt =playListSongs;
-    // console.log(playListSongs.songs);
-    try {
-        console.log('hi2');
+
+
+    let cnt = await serchByuserAndSongId(users.id, 999999);
+
+    if (cnt > 0) {
         if (playListSongs.songs.length > 0) {
             for (let i = 0; i < playListSongs.songs.length; i++) {
                 numberOflements++;
@@ -291,19 +320,49 @@ function renderPlayList() {
 
             }
         }
-        else {
-
-          //  addTextNoelements();
-          console.log("");
-        }
-
-    } catch (error) {
-
-        console.log("");
-      //  addTextNoelements();
-
     }
-}
+    else {
+        addTextNoelements();
+    }
+
+    //console.log("lengthhf"+playListSongs.songs.length );
+    /*
+        try {
+            //console.log('hi2');
+            if (playListSongs.songs.length > 0) {
+              //  let p= playListSongs.songs;
+                for (let i = 0; i <playListSongs.songs.length; i++) {
+                    numberOflements++;
+                    //console.log('plid'+playListSongs.songs[i].id);
+                    //  console.log(songs[1].id);
+                    let index = songs.findIndex(e => e.id === playListSongs.songs[i].id);
+                    console.log('index' + index);
+                    tbodyE2.innerHTML += `
+                <tr id=${index}>
+                    <td>${playListSongs.songs[i].id}</td>
+                    <td>${playListSongs.songs[i].title}</td>                   
+                    <td><button class="deleteBtn"  onclick="deleteSongFunction(${index})" id="remove-song"${index}>Delete</button></td>
+                 
+                </tr>
+            `;
+    
+                }
+            }
+            else {
+    
+               // addTextNoelements();
+              console.log("");
+            }
+    
+        } catch (error) {
+    
+            console.log("dffff"+error);
+          addTextNoelements();
+    
+        }
+        */
+    }
+
 function clearPlayList(j) {
     //  console.log('hi' + i);
     var index, table = document.getElementById('playlist');
@@ -329,23 +388,30 @@ function clearPlayList(j) {
 
 }
 function deletefirstRow() {
+    try {
+        var index, table = document.getElementById('playlist');
+        table.deleteRow(1);
 
-    var index, table = document.getElementById('playlist');
-    table.deleteRow(1);
+
+    } catch (error) {
+        alert("You Should Login First");
+    }
 
 
 
 }
 async function deleteSongFunction(i) {
 
- await    deleteSongFromPlayList(users.id, songs[i].id);
+    await deleteSongFromPlayList(users.id, songs[i].id);
     clearPlayList(i);
 
 
 }
 
 function SwitchButtons(buttonId) {
-    var hideBtn, showBtn;
+    var hideBtn, showBtn, hideBtn2;
+
+
 
     let element = document.getElementById("userPrinted");
 
@@ -361,11 +427,17 @@ function SwitchButtons(buttonId) {
         hideBtn = 'login-bttn';
 
 
+
         element.removeAttribute("hidden");
 
         userElement.setAttribute("hidden", "hidden");
         passwordElement.setAttribute("hidden", "hidden");
         element.innerText = users.username;
+        /*  for(let i=0;i<songs.length;i++)
+      {
+          document.getElementById('add-song-'+i).style.display = '';
+      }
+      */
 
 
     } else {
@@ -377,11 +449,18 @@ function SwitchButtons(buttonId) {
 
         userElement.removeAttribute("hidden");
         passwordElement.removeAttribute("hidden");
+        /*  console.log();
+          for(let i=0;i<songs.length;i++)
+      {
+          document.getElementById('add-song-'+i).style.display = 'none';
+      }
+      */
     }
 
     document.getElementById(hideBtn).style.display = 'none';
     //    document.getElementById(usernameHidden).style.display = 'none';    
     document.getElementById(showBtn).style.display = '';
+
 
 }
 
@@ -390,7 +469,7 @@ function addTextNoelements() {
     tbodyE2.innerHTML += `
     <tr id=-1>
         <td>   </td>
-        <td  style="color: red; font-size: 30px; font-style: italic;">you dont have songs yet in your playlist</td>                   
+        <td  style="color: red; font-size: 30px; font-style: italic;">you don't have songs yet in your playlist</td>                   
         <td>   </td>
      
     </tr>
