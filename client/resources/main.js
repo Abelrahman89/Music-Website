@@ -1,43 +1,10 @@
-let songs = [{ id: 1, title: "RUAHA NATIONAL PARK", releaseDate: "01-01-2018" }, { id: 2, title: "EAST BERBICE-CORENTYNE", releaseDate: "09-01-2019" },
-{ id: 3, title: "BOLIVIA  NATIONAL PARK", releaseDate: "02-01-2020" }, { id: 4, title: "SOUTH AFRICA", releaseDate: "04-01-2017" },
-{ id: 5, title: "BRAZIL NATIONAL PARK", releaseDate: "03-01-2019" }, { id: 6, title: "GUYANA NATIONAL PARK", releaseDate: "01-10-2019" }];
-
+let songs = [];
+let playListSongs=[];
 window.onload = function () {
+    getSongs();
+    getPlayList();
 
-    const tbodyEl = document.getElementById("musiclist");
-
-    let st = '';
-    for (let i = 0; i < songs.length; i++) {
-        tbodyEl.innerHTML += `
-            <tr>
-                <td>${songs[i].id}</td>
-                <td>${songs[i].title}</td>
-                <td>${songs[i].releaseDate}</td>
-                <td style="margin:auto">  <button class="btn btn-outline-success" onclick="addSongFunction(${i})" type="submit" id="add-song-${i}">add to playlist</button></td>
-             
-            </tr>
-        `;
-
-    }
-
-    var testButtons = Array.from(document.querySelectorAll('.btn-outline-success'));
-    testButtons.forEach(e => {
-        e.addEventListener.onclick = function (event) {
-            console.log('e.target.classList' + event.target);
-
-            tbodyE2.innerHTML += `
-    <tr>
-        <td>${songs[0].id}</td>
-        <td>${songs[0].title}</td>
-        <td>${songs[0].releaseDate}</td>
-        <td><button class="deleteBtn" id="remove-song_1">Delete</button></td>
-    </tr>
-`;
-        }
-
-    });
-
-
+//login
 
     document.getElementById('login-bttn').onclick = function (event) {
 
@@ -52,6 +19,20 @@ window.onload = function () {
             editProduct();
         }
     }
+
+    //search by song title
+    document.getElementById('search-bttn').onclick = function (event) {
+
+      //  event.preventDefault();
+        console.log("search");
+        searchBySongTitle();
+        /*if (!document.getElementById('search-bttn').dataset.id) {
+            console.log("hieeei");
+           searchBySongTitle();
+
+        } 
+        */
+    }
     // getProducts();
     console.log("hioei");
     document.getElementById('nav-home').onclick = function (event) {
@@ -60,7 +41,7 @@ window.onload = function () {
     }
 
     // add/update product
-    document.getElementById('product-btn').onclick = function (event) {
+   /* document.getElementById('product-btn').onclick = function (event) {
         console.log("hioi");
         event.preventDefault();
         console.log("hii");
@@ -73,6 +54,7 @@ window.onload = function () {
             editProduct();
         }
     }
+    */
 }
 
 
@@ -90,20 +72,76 @@ async function login() {
         alert("sorry username or password incorrect");
 
 }
+async function getSongs() {
+    for (let i = 0; i < songs.length; i++) {
+        deleteSongFunction(i);
+    }
+  
+    let url = 'http://localhost:4040/songs' ;
+    console.log('url' + url);
+    
+    songs = await fetch(url).then(response => response.json());
+    const tbodyEl = document.getElementById("musiclist");
 
+    let st = '';
+    for (let i = 0; i < songs.length; i++) {
+        tbodyEl.innerHTML += `
+            <tr>
+                <td>${songs[i].id}</td>
+                <td>${songs[i].title}</td>
+                <td>${songs[i].releaseDate}</td>
+                <td style="margin:auto">  <button class="btn btn-outline-success" onclick="addSongFunction(${i})" type="submit" id="add-song-${i}">add to playlist</button></td>
+             
+            </tr>
+        `;
+
+    }
+
+
+}
+
+async function getPlayList() {
+    for (let i = 0; i < songs.length; i++) {
+        deleteSongFunction(i);
+    }
+  
+    let url = 'http://localhost:4040/playLists' ;
+    console.log('url' + url);
+    
+    playListSongs = await fetch(url).then(response => response.json());
+    renderPlayList();
+
+
+}
+
+async function searchBySongTitle() {
+    console.log('sdsdsdsdsd');
+    let songtitle = document.getElementById('songtitle').value;
+    console.log('songtitle' + songtitle);
+    let url = 'http://localhost:4040/songs/song?title='+songtitle ;
+    console.log('url' + url);
+    
+    songs = await fetch(url).then(response => response.json());
+    const tbodyEl = document.getElementById("musiclist");
+
+    let st = '';
+    for (let i = 0; i < songs.length; i++) {
+        tbodyEl.innerHTML += `
+            <tr>
+                <td>${songs[i].id}</td>
+                <td>${songs[i].title}</td>
+                <td>${songs[i].releaseDate}</td>
+                <td style="margin:auto">  <button class="btn btn-outline-success" onclick="addSongFunction(${i})" type="submit" id="add-song-${i}">add to playlist</button></td>
+             
+            </tr>
+        `;
+
+    }
+
+
+}
 async function getProducts() {
-    let products = [{
-        "id": 1,
-        "title": "aaaaa",
-        "price": 12,
-        "description": "sdsdssdsd"
-    },
-    {
-        "id": 3,
-        "title": "ssdsdsd",
-        "price": 12,
-        "description": "rrrrr"
-    }];
+    
 
     products.forEach(prod => renderProduct(prod));
 }
@@ -234,10 +272,32 @@ function addSongFunction(i) {
         <tr id=${i}>
             <td>${songs[i].id}</td>
             <td>${songs[i].title}</td>
-            <td>${songs[i].releaseDate}</td>
+          
             <td><button class="deleteBtn"  onclick="deleteSongFunction(${i})" id="remove-song"${i}>Delete</button></td>
         </tr>
     `;
+}
+function renderPlayList() {
+    // console.log('e.target.classList'+event.target);
+
+   
+        const tbodyE2 =  document.getElementById("tb2");
+        let cnt =playListSongs;
+        console.log(cnt[0].songs);
+
+        for (let i = 0; i < playListSongs[0].songs.length; i++) {
+            tbodyE2.innerHTML += `
+                <tr>
+                    <td>${playListSongs[0].songs[i].id}</td>
+                    <td>${playListSongs[0].songs[i].title}</td>                   
+                    <td><button class="deleteBtn"  onclick="deleteSongFunction(${i})" id="remove-song"${i}>Delete</button></td>
+                 
+                </tr>
+            `;
+    
+        }
+
+       
 }
 
 function deleteSongFunction(i) {
