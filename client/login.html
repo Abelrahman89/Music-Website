@@ -28,7 +28,7 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#" id="nav-home">Home</a>
                         </li>
-                        
+
                     </ul>
                     <form class="d-flex">
                         <input class="form-control me-2" type="text" placeholder="username" id="username"
@@ -54,67 +54,39 @@
             <div class="row featurette">
                 <!--/////////////////-->
 
-            
 
-                <h1>Music Samples</h1>
+                <h1>Musics</h1>
 
-                <table id="customers">
-                  <tr>
-                    <th style=" text-align: center;width: 10%;">Id</th>
-                    <th style="  text-align: center ; width: 40%;">Title</th>
-                    <th style=" text-align: center ;width: 20%;">Release Date</th>
-                    <th style=" text-align: center ;width: 20%;">Add to your PlayList</th>
-                  </tr>
-                  <tr>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Maria Anders</td>
-                    <td>Germany</td>
-                    <td>  <button class="btn btn-outline-success" type="submit" id="add-song">add to playlist</button></td>
-                  </tr>
-                  <tr>
-                    <td>Berglunds snabbköp</td>
-                    <td>Christina Berglund</td>
-                    <td>Sweden</td>
-                    <td style="margin:auto">  <button class="btn btn-outline-success" type="submit" id="add-song">add to playlist</button></td>
-                  </tr>
-                  <tr>
-                    <td>Centro comercial Moctezuma</td>
-                    <td>Francisco Chang</td>
-                    <td>Mexico</td>
-                    <td style="margin:auto">  <button class="btn btn-outline-success" type="submit" id="add-song">add to playlist</button></td>
-                  </tr>
-                 
-                 
+                <table id="customers" >
+                    <tr>
+                        <th style=" text-align: center;width: 5%;">Id</th>
+                        <th style="  text-align: center ; width: 30%;">Title</th>
+                        <th style=" text-align: center ;width: 10%;">Release Date</th>
+                        <th style=" text-align: center ;width: 10%;">Add to your PlayList</th>
+                    </tr>
+
+
+                    <tbody id="musiclist"></tbody>
                 </table>
-                
+                <hr class="featurette-divider">
+                <h1>PlayList</h1>
 
-             
+
+                <table id="playlist" >
+                    <tr>
+                        <th style=" text-align: center;width: 10%;">Id</th>
+                        <th style="  text-align: center ; width: 40%;">Title</th>
+                        <th style=" text-align: center ;width: 20%;">Release Date</th>
+                        <th style=" text-align: center ;width: 20%;">Add to your PlayList</th>
+                    </tr>
+
+
+                    <tbody id="tb2"></tbody>
+                </table>
+
                 <!--////////////////-->
 
-                <div class="col-md-12">
-
-                    <p class="lead">
-                    <form id="product-form">
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="title">
-
-                        </div>
-                        <div class="mb-3">
-                            <label for="price" class="form-label">Price</label>
-                            <input type="text" class="form-control" id="price">
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" rows="3"></textarea>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary" id="product-btn">add</button>
-                    </form>
-                    </p>
-                </div>
-            </div>
-        </div>
+                
 
     </main>
 

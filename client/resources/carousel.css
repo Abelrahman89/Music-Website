@@ -1,4 +1,30 @@
 
+#playlist {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+   /* width: 70%;*/
+  }
+  
+  #playlist td, #playlist th {
+    border: 1px solid #ddd;
+    padding: 8px;
+
+    
+  }
+  
+  #playlist tr:nth-child(even){background-color: #f2f2f2; }
+  
+  #playlist tr:hover {background-color: #ddd;}
+  
+  #playlist th {
+   
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: green;
+    color: white;
+  }
+/*****/
 #customers {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
@@ -24,6 +50,7 @@
     background-color: #04AA6D;
     color: white;
   }
+
 /*th{
     background-color: yellow;
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -128,7 +155,7 @@ body {
 ------------------------- */
 
 .featurette-divider {
-    margin: 5rem 0;
+    margin: 1rem 0;
     /* Space out the Bootstrap <hr> more */
 }
 

@@ -39,6 +39,43 @@
         display: block;
       }
     </style>
+
+    <script>
+     window.onload = function() {
+       //  alert("hi");
+        const formEl = document.querySelector("form");
+      const tbodyEl = document.querySelector("tbody");
+      //alert(tbodyEl.innerHTML);
+      const tableEl = document.querySelector("table");
+
+     
+
+
+     let x=[{url:"https://www.w3schools.com/tags/ev_onload.asp",website :"https://www.w3schools.com/tags/ev_onload.asp"},
+    { url:"https://www.w3schools.com/tags/ev_onload.asp",website :"https://www.w3schools.com/tags/ev_onload.asp"},
+    { url:"https://www.w3schools.com/tags/ev_onload.asp",website :"https://www.w3schools.com/tags/ev_onload.asp"}];
+    
+      //  const website ="https://www.w3schools.com/tags/ev_onload.asp";// document.getElementById("website").value;
+        //const url = "https://www.w3schools.com/tags/ev_onload.asp";//document.getElementById("url").value;
+        let st='';
+        for (let i = 0; i < x.length; i++) {
+            tbodyEl.innerHTML+= `
+            <tr>
+                <td>${x[i].url}</td>
+                <td>${x[i].website}</td>
+                <td><button class="deleteBtn">Delete</button></td>
+            </tr>
+        `;
+           
+        }
+     //   tbodyEl.innerHTML =str;
+        console.log("hi");
+       
+     }
+
+   
+
+    </script>
   </head>
   <body>
     <h1>Dynamically Add & Remove Table Rows</h1>
