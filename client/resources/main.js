@@ -62,8 +62,8 @@ async function login() {
 
 async function serchByuserAndSongId(userId,songId) {
 
-
-    let url = 'http://localhost:4040/playLists' + userId + '/' + songId;
+console.log('userId'+userId,songId);
+    let url = 'http://localhost:4040/playLists/' + userId + '/' + songId;
     
 console.log('urlget'+url);
     let cnt2 = await fetch(url).then(response => response.json());
@@ -234,53 +234,15 @@ async function searchBySongTitle() {
 
 
 
-function addSongFunction(i) {
-    /*
-    console.log('numberOflements' + numberOflements);
-
-    if (numberOflements < 1){
-        deletefirstRow();
-    }
-        */
-  //  playListSongs = [];
-  //   getPlayListByUserIdwithoutRender();
-//     let cnt = 0;
-//     console.log('numberOflements' + numberOflements);
-//     if(numberOflements>0){
-//     try {
-//         /*console.log('h' + songs[i].id);
-//         console.log('s' + playListSongs[0].songs[0]);*/
-//         cnt = playListSongs.songs.findIndex(e => e.id == songs[i].id);
-//       //  console.log('cnt' + cnt);
-//     } catch (error) {
-//        /* console.log('bug');
-//         cnt =-1;*/
-//      cnt=   firstSong.findIndex(e => e.id == songs[i].id);
-//         //cnt=0;
-//     }
-// }
-// else
-// {
-//     let newsong = { id: songs[i].id, title: songs[i].title };
-//     console.log('newsong'+newsong);
-//     firstSong.push(newsong);
-//     console.log('firstSong'+firstSong[1]);
-// }
-let   cnt=serchByuserAndSongId(users.id,songs[i].id);
+async function addSongFunction(i) {
+   
+let   cnt=await serchByuserAndSongId(users.id,songs[i].id);
 console.log('cntttt'+cnt);
     if (cnt > 0) {
         alert("sorry you added this song before");
     }
     else {
-      /*  if(cnt<=0)
-        {
-            console.log("here");
-            let newsong = [{ id: songs[i].id, title: songs[i].title }];
-            console.log(newsong);
-            playListSongs.songs=(newsong);
-            console.log(playListSongs.songs[0]);
-        }
-        */
+  
 
 
 
@@ -373,15 +335,10 @@ function deletefirstRow() {
 
 
 
-    //
-
-    // table.deleteRow(-1);
-
-
 }
-function deleteSongFunction(i) {
+async function deleteSongFunction(i) {
 
-    deleteSongFromPlayList(users.id, songs[i].id);
+ await    deleteSongFromPlayList(users.id, songs[i].id);
     clearPlayList(i);
 
 
