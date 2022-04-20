@@ -544,9 +544,10 @@ console.log("play song");
       http://localhost:4040/
       var audio = document.getElementById("musicplay");
       var source = document.getElementById("source1");
-      console.log("helooss"+"../sound/"+songs[i].title);
-     // source.src = "./sound/"+songs[i].title ;
-     source.src = "sound/Pharrell Williams - Happy.mp3" ;
+      console.log("helooss"+"./sound/"+songs[i].id);
+      source.src = "./sound/"+songs[i].id ;
+      source.type="audio/ogg";
+     //source.src = "./sound/Pharrell Williams - Happy.mp3" ;
     
      audio.load(); 
       audio.play(); 
