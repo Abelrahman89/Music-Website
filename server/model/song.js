@@ -20,7 +20,7 @@ module.exports = class Song {
 
     static getByName(title) {      
         
-        return songs.filter(s => s.title.includes(title)); 
+        return songs.filter(s => s.title.toLocaleLowerCase().includes(title.toLocaleLowerCase())); 
     }
 
 }
