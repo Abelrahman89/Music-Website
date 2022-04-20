@@ -530,16 +530,26 @@ async function playSongFunction(i) {
         LogOut();
     }
     else{
-    
-
+    /*
+console.log("play song");
     //  document.getElementById("source1").pause();
       document.getElementById("source1").setAttribute('src', "../sound/Adele - Hello.mp3");
       document.getElementById("source1").setAttribute('type', "audio/ogg");
      
       //document.getElementById("source1").load();
-  //    document.getElementById("source1").play();
+      document.getElementById("source1").play();
      
-   
+   */
+
+      http://localhost:4040/
+      var audio = document.getElementById("musicplay");
+      var source = document.getElementById("source1");
+      console.log("helooss"+"../sound/"+songs[i].title);
+     // source.src = "./sound/"+songs[i].title ;
+     source.src = "sound/Pharrell Williams - Happy.mp3" ;
+    
+     audio.load(); 
+      audio.play(); 
     }
   
   
@@ -709,7 +719,7 @@ var diffMs = (today - tockendate); // milliseconds between now & Christmas
 var diffDays = Math.floor(diffMs / 86400000); // days
 var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
 var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-if(diffDays>=1 || diffHrs>=1 || diffMins>=1)
+if(diffDays>=11 || diffHrs>=11 || diffMins>=180)
 {
     alert (" sorry session time out");
     console.log("big");
