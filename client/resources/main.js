@@ -366,9 +366,10 @@ async function serchByuserAndSongId(userId, songId) {
 
 }
 async function getSongs() {
-    for (let i = 0; i < songs.length; i++) {
+  /*  for (let i = 0; i < songs.length; i++) {
         clearPlayList(i);
     }
+    */
 
     let url = 'http://localhost:4040/songs';
     console.log('url' + url);
@@ -529,6 +530,9 @@ async function searchBySongTitle() {
 
     }
     else {
+        const tbodyEl = document.getElementById("musiclist");
+
+        tbodyEl.innerHTML = ``;
         getSongs();
     }
 
@@ -678,21 +682,25 @@ async function renderPlayList() {
 }
 
 async function clearPlayList(i) {
+    let j=i;
     console.log('hi' + i);
     var index, table = document.getElementById('playlist');
 
     console.log('table.rows.length' + table.rows.length);
     for (var i = 1; i < table.rows.length; i++) {
+console.log("hello"+i)
 
         //  console.log(table.rows[i].cells[2]);
-        table.rows[i].cells[2].onclick = function () {
-            var c = confirm("do you want to delete this row");
+        table.rows[i].cells[2].onclick = async function () {
+          var c = confirm("do you want to delete this row");
             if (c === true) {
+          
                 index = this.parentElement.rowIndex;
                 console.log('index' + index);
                 table.deleteRow(index);
+              //   deleteSongFromPlayList(users.id, songs[j].id);
                 numberOflements--;
-            }
+           }
 
             //
         };
@@ -716,6 +724,20 @@ function deletefirstRow() {
 
 }
 
+function deleteRow(i) {
+    try {
+        var  table = document.getElementById('playlist');
+        table.deleteRow(i);
+
+
+    } catch (error) {
+        //alert("You Should Login First");
+        console.log("delete not successfully");
+    }
+
+
+
+}
 
 
 async function deleteSongFunction(i) {
@@ -724,15 +746,50 @@ async function deleteSongFunction(i) {
     if (exit == 1 || exit1 == 1) {
         LogOut();
     }
-    else
+    else{
         console.log("fffff");
-    await clearPlayList(i);
+        var c = confirm("do you want to delete this row");
+        if (c === true) {
+            let index =  playListSongs.songs.findIndex(e => e.id === songs[i].id);
+            console.log('indewwwwx'+index);
+           deleteRow(index+1);
+ //   await clearPlayList(i);
+ //await clearPlayList2();
     await deleteSongFromPlayList(users.id, songs[i].id);
+        }
 
 }
 
 
+}
 
+
+async function clearPlayList2(i) {
+    console.log('hi' + i);
+    var index, table = document.getElementById('playlist');
+
+    console.log('table.rows.length' + table.rows.length);
+
+console.log("hello"+i)
+
+        //  console.log(table.rows[i].cells[2]);
+        table.rows[i].cells[2].onclick = function () {
+          
+          
+                index = this.parentElement.rowIndex;
+                console.log('index' + index);
+                table.deleteRow(index);
+               
+                numberOflements--;
+           
+
+            //
+        };
+
+    
+
+
+}
 
 
 
@@ -828,7 +885,7 @@ async function checkTockenTime() {
     var diffDays = Math.floor(diffMs / 86400000); // days
     var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
     var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-    if (diffDays >=15|| diffHrs >=15 || diffMins >= 500) {
+    if (diffDays >=20 && diffHrs >=15 && diffMins >= 500) {
         alert(" sorry session time out");
         console.log("greater");
         return 1;//logout
@@ -904,12 +961,19 @@ async function validateTocken() {
     console.log('today' + today);
 
 
-    let username = document.getElementById('username').value;
-    let password = document.getElementById('password').value;
-    let url = 'http://localhost:4040/users/' + users.username + '/' + users.tokentext;
-    console.log('url' + url);
-
-    usersTocken = await fetch(url).then(response => response.json());
+   // let username = document.getElementById('username').value;
+   // let password = document.getElementById('password').value;
+    console.log(users.tokenCreatedDate);
+    let url='';
+    if( users.tokentext!==undefined)
+    {
+        url = 'http://localhost:4040/users/' + users.username + '/' + users.tokentext;
+    }
+   else
+   {
+    url = 'http://localhost:4040/users/' + users.username + '/' + "123456789";
+   }
+    
 
 
     var tockendate = new Date(usersTocken.tokenCreatedDate);

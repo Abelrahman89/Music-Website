@@ -2,7 +2,8 @@
 var today = new Date();
 
 let users = [{ id: 1,username: "abdo", password: "123456",tokenCreatedDate:today,tokentext:"123456789"},
-{ id: 2,username: "ahmed", password: "123456",tokenCreatedDate:today,today:"123456789"}
+{ id: 2,username: "ahmed", password: "123456",tokenCreatedDate:today,today:"123456789"},
+{ id: 3,username: "joe", password: "123456",tokenCreatedDate:today,today:"123456789"}
 ];
 let cnt = 1;
 module.exports = class User {
