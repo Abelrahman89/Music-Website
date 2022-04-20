@@ -178,7 +178,7 @@ async function getSongs() {
                 <td>${songs[i].id}</td>
                 <td>${songs[i].title}</td>
                 <td>${songs[i].releaseDate}</td>
-                <td style="margin:auto">  <button class="btn btn-outline-success" onclick="addSongFunction(${i})" type="submit" id="add-song-${i}"><i class="fa-solid fa-folder-plus fa-2xl"></i></button></td>
+                <td style="margin:auto;text-align:center">  <button class="btn btn-outline-success" onclick="addSongFunction(${i})" type="submit" id="add-song-${i}"><i class="fa-solid fa-folder-plus fa-2xl"></i></button></td>
                
             </tr>
         `;
@@ -310,7 +310,7 @@ async function searchBySongTitle() {
                 <td>${songs[i].id}</td>
                 <td>${songs[i].title}</td>
                 <td>${songs[i].releaseDate}</td>
-                <td style="margin:auto">  <button class="btn btn-outline-success" onclick="addSongFunction(${i})" type="submit" id="add-song-${i}"><i class="fa-solid fa-folder-plus fa-2xl"></i></button></td>
+                <td style="margin:auto ;text-align:center">  <button class="btn btn-outline-success" onclick="addSongFunction(${i})" type="submit" id="add-song-${i}"><i class="fa-solid fa-folder-plus fa-2xl"></i></button></td>
              
             </tr>
         `;
@@ -376,7 +376,7 @@ async function addSongFunction(i) {
             <td>${songs[i].id}</td>
             <td>${songs[i].title}</td>
           
-            <td><button class="deleteBtn"  onclick="deleteSongFunction(${i})" id="remove-song"${i}><i class="fa-solid fa-minus fa-2xl"></i></i></i></button></td>
+            <td style="margin:auto ;text-align:center"> <button class="deleteBtn"  onclick="deleteSongFunction(${i})" id="remove-song"${i}><i class="fa-solid fa-minus fa-2xl"></i></i></i></button></td>
         </tr>
     `;
         }
@@ -404,7 +404,7 @@ async function renderPlayList() {
             <tr id=${index}>
                 <td>${playListSongs.songs[i].id}</td>
                 <td>${playListSongs.songs[i].title}</td>                   
-                <td><button class="deleteBtn"  onclick="deleteSongFunction(${index})" id="remove-song"${index}><i class="fa-solid fa-minus fa-2xl"></i></i></i></button></td>
+                <td style="margin:auto ;text-align:center"> <button class="deleteBtn"  onclick="deleteSongFunction(${index})" id="remove-song"${index}><i class="fa-solid fa-minus fa-2xl"></i></i></i></button></td>
      
              
             </tr>
