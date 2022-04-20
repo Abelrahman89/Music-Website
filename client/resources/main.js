@@ -56,19 +56,7 @@ window.onload = function () {
     document.getElementById('logout-bttn').onclick = function (event) {
         //event.preventDefault();
         if (!document.getElementById('logout-bttn').dataset.id) {
-            let songs = [];
-            let playListSongs = [];
-            let users = [];
-            let firstSong = [{
-                id: 00000,
-                title: "testetsts"
-            }];
-            let numberOflements = 0;
-            console.log('logout');
-
-            SwitchButtons('logout-bttn');
-
-            stausLogin = "stausisLogout";
+          LogOut();
         }
 
     }
@@ -315,6 +303,8 @@ async function searchBySongTitle() {
 
 
 async function addSongFunction(i) {
+    await checkTockenTime();
+  //SwitchButtons('logout-bttn');
     //  console.log('user' + users.length);
     if (users.length <= 0) {
         alert("You Should Login First");
@@ -535,3 +525,43 @@ function addTextNoelements() {
 `;
 }
 
+async function checkTockenTime() {
+    var today = new Date();
+    console.log('today'+today);
+
+    var tockendate =new Date (users.tokenCreatedDate);
+    console.log('tockendate'+tockendate);
+
+
+var diffMs = (today - tockendate); // milliseconds between now & Christmas
+var diffDays = Math.floor(diffMs / 86400000); // days
+var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+if(diffDays>=1 || diffHrs>=1 || diffMins>=1)
+{
+    alert (" sorry session time out");
+    console.log("greater");
+    LogOut();
+
+}
+else
+{
+    console.log("less");
+}
+}
+
+ function LogOut(){
+    let songs = [];
+    let playListSongs = [];
+    let users = [];
+    let firstSong = [{
+        id: 00000,
+        title: "testetsts"
+    }];
+    let numberOflements = 0;
+    console.log('logout');
+
+    SwitchButtons('logout-bttn');
+
+    stausLogin = "stausisLogout";
+}
