@@ -10,8 +10,8 @@
     <link href="./resources/bootstrap.min.css" rel="stylesheet">
     <link href="./resources/carousel.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/8208c2e1de.js" crossorigin="anonymous"></script>
-    <link rel = "icon" href = 
-    "./images/logo.png" 
+    <link rel = "icon" href = "images/icon.png"
+     
             type = "image/x-icon">
               
     <!-- <script src="./resources/bootstrap.bundle.min.js"></script> -->
@@ -31,8 +31,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav me-auto mb-2 mb-md-0">
 
-                        
-
+                     
                                 
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#" id="nav-home">Home</a>
@@ -67,7 +66,8 @@
         <div class="container marketing">
             <div id="products" class="row">
             </div>
-            <h2 class="featurette-heading" id="product-heading">Welcome to music website</h2>
+            
+            <h2 class="featurette-heading" id="product-heading"><img src="./images/logo.png" alt="Music" width="150" height="150">Welcome to music website</h2>
             <hr class="featurette-divider">
 
             <div class="row featurette">
@@ -96,20 +96,30 @@
                         <th style=" text-align: center;width: 10%;">Id</th>
                         <th style="  text-align: center ; width: 40%;">Title</th>
                    
-                        <th style=" text-align: center ;width: 20%;">delete</th>
+                        <th style=" text-align: center ;width: 5%;">delete</th>
+                        <th style=" text-align: center ;width: 5%;">play</th>
                     </tr>
 
 
                     <tbody id="tb2"></tbody>
                 </table>
-                <div >
-                    <audio controls autoplay id="musicplay">
+                <div   style="margin:auto;text-align:center">
+                    <audio controls autoplay id="musicplay" style="margin:auto;text-align:center; width: 300px;">
                         <source id="source1" src="" type="audio/ogg">
                      
                       Your browser does not support the audio element.
-                      </audio>
-    
+                      </audio> 
+                      
+                      <button class="btn btn-outline-success" type="submit" id="nextSong"><i class="fa-solid fa-forward fa-2xl"></i></i></button>
+                      <button class="btn btn-outline-success" type="submit" id="backSong">   <i class="fa-solid fa-backward  fa-2xl"></i></button>
+                      <button class="btn btn-outline-success" type="submit" id="shuffle-bttn">    <i class="fa-solid fa-shuffle fa-2xl"></i></button>
+                     
+                      <button class="btn btn-outline-success" type="submit" id="normalSongList-bttn">     <i class="fa-solid fa-list-ol  fa-2xl"></i></button>
+                     
+
+                     
                 </div>
+
 
                 <!--////////////////-->
 

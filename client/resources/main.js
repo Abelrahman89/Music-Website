@@ -1,22 +1,27 @@
 let songs = [];
 let playListSongs = [];
+
 let users = [];
-let usersTocken=[];
+let usersTocken = [];
 let firstSong = [{
     id: 00000,
     title: "testetsts"
 }];
 let stausLogin = "";
 let numberOflements = 0;
-
+let savedPassword = "";
+currentSong = -1;
+currentSongIndex = -1;
 window.onload = function () {
+
     let historystatus = localStorage.getItem('stausLoginHistory');
     let userName = localStorage.getItem("userName");
     let password = localStorage.getItem("password");
-    // console.log("userName" + userName);
-    // console.log("password" + password);
-    // console.log("historystatus" + historystatus);
-    if (historystatus == "stausisLogin") {
+    console.log("userName" + userName);
+    console.log("password" + password);
+    console.log("historystatus" + historystatus);
+    if (historystatus === "stausisLogin") {
+        console.log("historystatusssss" + historystatus);
         let userId = localStorage.getItem("userId");
         // let userName = localStorage.getItem("userName");
         // let password = localStorage.getItem("password");
@@ -41,7 +46,10 @@ window.onload = function () {
     }
     getSongs();
 
+    // if (historystatus == "stausisLogin") {
     SwitchButtons('login-bttn');
+    //   }
+
     //login
 
     document.getElementById('login-bttn').onclick = function (event) {
@@ -59,26 +67,26 @@ window.onload = function () {
         //event.preventDefault();
         if (!document.getElementById('logout-bttn').dataset.id) {
 
-             tbodyE2 = document.getElementById("tb2");
+            tbodyE2 = document.getElementById("tb2");
             tbodyE2.innerHTML = ``;
-             songs = [];
-             playListSongs = [];
-             users = [];
-             firstSong = [{
+            songs = [];
+            playListSongs = [];
+            users = [];
+            firstSong = [{
                 id: 00000,
                 title: "testetsts"
             }];
-             numberOflements = 0;
+            numberOflements = 0;
             console.log('sjhsjhjh');
-             usernameElement = document.getElementById('username');
-        
-             passwordElement = document.getElementById('password');
+            usernameElement = document.getElementById('username');
+
+            passwordElement = document.getElementById('password');
             historystatus = '';
-             userName = '';
-             password=''
+            userName = '';
+            password = ''
             usernameElement.value = "";
             passwordElement.value = "";
-          LogOut();
+            LogOut();
         }
 
     }
@@ -98,16 +106,74 @@ window.onload = function () {
             */
         }
     }
+    document.getElementById("musicplay").addEventListener('ended', async function () {
 
+        console.log("play next song" + currentSong);
+
+        await playNextSong();
+
+    });
+
+    document.getElementById('nextSong').onclick = async function (event) {
+
+        event.preventDefault();
+      
+
+        if (!document.getElementById('nextSong').dataset.id) {
+           
+            playNextSong();
+
+        }
+    }
+
+    document.getElementById('backSong').onclick = async function (event) {
+
+        event.preventDefault();
+      
+
+        if (!document.getElementById('backSong').dataset.id) {
+           
+            await playPreviousSong();
+
+        }
+    }
+
+
+    document.getElementById('shuffle-bttn').onclick = async function (event) {
+
+        event.preventDefault();
+      
+
+        if (!document.getElementById('shuffle-bttn').dataset.id) {
+           
+            await playSongFunction(currentSong);
+
+        }
+    }
+    
+    document.getElementById('normalSongList-bttn').onclick = async function (event) {
+
+        event.preventDefault();
+      
+
+        if (!document.getElementById('normalSongList-bttn').dataset.id) {
+            await getPlayListByUserId();
+            await playSongFunction(currentSong);
+
+        }
+    }
+    
 
 }
 window.onbeforeunload = function () {
-    // console.log("uss" + stausLogin);
+
+    console.log("aaaaaaaaaaa");
+    console.log("aaaaaaaaaaa" + stausLogin);
     // console.log("uss" + users.username);
     //localStorage.setItem("name", "abdelrahman");
     localStorage.setItem("userId", users.username);
     localStorage.setItem("userName", users.username);
-    localStorage.setItem("password", users.password);
+    localStorage.setItem("password", savedPassword);
     localStorage.setItem("stausLoginHistory", stausLogin);
     localStorage.setItem("tokenCreatedDate", users.tokenCreatedDate);
     localStorage.setItem("tokentext", users.tokentext);
@@ -121,6 +187,122 @@ window.onbeforeunload = function () {
      localStorage.setItem("detail", $('#inputDetail').val());
      // ...
      */
+}
+
+
+
+async function playSongFunction(i) {
+
+    let exit1 = await validateTocken();
+    let exit = await checkTockenTime();
+    if (exit == 1 || exit1 == 1) {
+        LogOut();
+    }
+    else {
+        /*
+    console.log("play song");
+        //  document.getElementById("source1").pause();
+          document.getElementById("source1").setAttribute('src', "../sound/Adele - Hello.mp3");
+          document.getElementById("source1").setAttribute('type', "audio/ogg");
+         
+          //document.getElementById("source1").load();
+          document.getElementById("source1").play();
+         
+       */
+
+        //  http://localhost:4040/
+        currentSong = i;
+        currentSongIndex=playListSongs.songs.findIndex(e=>e.id==i);
+        console.log("currentSodddng"+currentSong);
+        console.log("currentSongdddIndex"+currentSongIndex);
+        let audio = document.getElementById("musicplay");
+        let source = document.getElementById("source1");
+        console.log("heloossfff" + "./sound/" + i);
+        source.src = "./sound/" +i + ".mp3";
+        source.type = "audio/ogg";
+        //source.src = "./sound/Pharrell Williams - Happy.mp3" ;
+
+        audio.load();
+        audio.play();
+    }
+
+
+}
+
+async function playNextSong() {
+   // currentSongIndex=playListSongs.songs.findIndex(e=>e.id==i);
+    console.log("currentSong"+currentSong);
+    console.log("currentSongIndex"+currentSongIndex);
+    if(currentSongIndex>=0  && (currentSongIndex + 1) < playListSongs.songs.length){
+        console.log("prev");
+    }
+    else{
+        currentSongIndex=-1;
+      //  currentSong=playListSongs.songs[0].id;
+    }
+   // for (let i = currentSongIndex + 1; i < playListSongs.songs.length; i++) {
+    
+let i=currentSongIndex + 1;
+currentSongIndex = i;
+        currentSong= playListSongs.songs[i].id;
+        console.log("cccccc"+currentSong);
+        console.log("iiiiiiii"+currentSongIndex);
+        let audio = document.getElementById("musicplay");
+        let source = document.getElementById("source1");
+        console.log("heloossdddd" + "./sound/" + playListSongs.songs[i].id);
+        source.src = "./sound/" + playListSongs.songs[i].id + ".mp3";
+        source.type = "audio/ogg";
+        //source.src = "./sound/Pharrell Williams - Happy.mp3" ;
+
+        audio.load();
+        audio.play();
+
+
+    //}
+
+
+
+
+}
+
+async function playPreviousSong() {
+
+   // if(currentSongIndex>=0 && (currentSongIndex-1) < playListSongs.songs.length){
+
+
+        if(currentSongIndex>=0  && (currentSongIndex ) < playListSongs.songs.length){
+            console.log("prev");
+        }
+        else{
+            currentSongIndex=playListSongs.songs.length;
+            //currentSong=playListSongs.songs[currentSongIndex].id;
+        }
+
+    console.log("previous");
+    //for (let i = currentSongIndex -1 ; i < playListSongs.songs.length; i++) {
+        let i=currentSongIndex -1;
+        if(i<0){
+            currentSongIndex=playListSongs.songs.length-1;
+        
+        i=currentSongIndex;
+        console.log("i"+i);
+        }
+        currentSongIndex = i;
+        currentSong= playListSongs.songs[i].id;
+        let audio = document.getElementById("musicplay");
+        let source = document.getElementById("source1");
+        console.log("helooss" + "./sound/" + playListSongs.songs[i].id);
+        source.src = "./sound/" + playListSongs.songs[i].id + ".mp3";
+        source.type = "audio/ogg";
+        //source.src = "./sound/Pharrell Williams - Happy.mp3" ;
+
+        audio.load();
+        audio.play();
+
+
+  //  }
+  //  }
+
 }
 
 async function login() {
@@ -137,13 +319,15 @@ async function login() {
     /*var today = new Date();
     users.tockendate=today;
     */
-    
+
     if (users.username == username) {
-        console.log("success");
-        SwitchButtons('logout-bttn');
-        getPlayListByUserId();
+        console.log("successsssssss");
+
+        savedPassword = password;
         stausLogin = "stausisLogin";
         console.log("login" + stausLogin);
+        SwitchButtons('logout-bttn');
+        await getPlayListByUserId();
     }
     else
         alert("sorry username or password incorrect");
@@ -225,7 +409,7 @@ async function getPlayListByUserId() {
 async function addSonginplayList(songId, songTitle) {
     console.log('uid' + playListSongs.userId);
     let cnt = 0;
-    console.log("numberOflements"+numberOflements);
+    console.log("numberOflements" + numberOflements);
     try {
         cnt = numberOflements;//playListSongs.songs.length;
     } catch (error) {
@@ -335,64 +519,66 @@ async function searchBySongTitle() {
 
 async function addSongFunction(i) {
 
-let exit1=await validateTocken();
-    let exit=  await checkTockenTime();
-    if (users.length <= 0) {
-        alert("You Should Login First");
-    }
-    else{
-  if(exit==1 || exit1==1)
-  {
-      LogOut();
-  }
-  else{
-  //SwitchButtons('logout-bttn');
-    //  console.log('user' + users.length);
+    let exit1 = await validateTocken();
+    let exit = await checkTockenTime();
     if (users.length <= 0) {
         alert("You Should Login First");
     }
     else {
-        let cnt =0;
-        try {
-            cnt= await serchByuserAndSongId(users.id, songs[i].id);
-        } catch (error) {
-            
-        }
-
-        if (cnt > 0) {
-            alert("sorry you added this song before");
+        if (exit == 1 || exit1 == 1) {
+            LogOut();
         }
         else {
-
-
-            let cnt = await serchByuserAndSongId(users.id, 999999);
-
-            if (cnt <= 0) {
-                deletefirstRow();
+            //SwitchButtons('logout-bttn');
+            //  console.log('user' + users.length);
+            if (users.length <= 0) {
+                alert("You Should Login First");
             }
+            else {
+                let cnt = 0;
+                try {
+                    cnt = await serchByuserAndSongId(users.id, songs[i].id);
+                } catch (error) {
+
+                }
+
+                if (cnt > 0) {
+                    alert("sorry you added this song before");
+                }
+                else {
 
 
-            addSonginplayList(songs[i].id, songs[i].title);
-            numberOflements++;
-            console.log('numberOflements' + numberOflements);
+                    let cnt = await serchByuserAndSongId(users.id, 999999);
 
-            const tbodyE2 = document.getElementById("tb2");
-            tbodyE2.innerHTML += `
+                    if (cnt <= 0) {
+                        deletefirstRow();
+                    }
+
+
+                    addSonginplayList(songs[i].id, songs[i].title);
+                    numberOflements++;
+                    console.log('numberOflements' + numberOflements);
+
+                    const tbodyE2 = document.getElementById("tb2");
+                    tbodyE2.innerHTML += `
         <tr id=${i}>
             <td>${songs[i].id}</td>
             <td>${songs[i].title}</td>
           
             <td style="margin:auto ;text-align:center"> <button class="deleteBtn"  onclick="deleteSongFunction(${i})" id="remove-song"${i}><i class="fa-solid fa-minus fa-2xl"></i></i></i></button>
-            <button class="deleteBtn"  onclick="playSongFunction(${i})" id="play-song"${i}><i class="fa-solid fa-play fa-2xl"></i></i></i></button>
+          
             </td>
+            <td style="margin:auto ;text-align:center">
+            <button class="dd"  onclick="playSongFunction(${songs[i].id})" id="play-song"${i}><i class="fa-solid fa-play fa-2xl"></i></button> </td>
+         
         </tr>
     `;
+                }
+                // playListSongs = [];
+                //getPlayListByUserIdwithoutRender();
+                // console.log('read'+playListSongs[0].songs);
+            }
         }
-        // playListSongs = [];
-        //getPlayListByUserIdwithoutRender();
-        // console.log('read'+playListSongs[0].songs);
-    }
-}
     }
 }
 async function renderPlayList() {
@@ -413,11 +599,11 @@ async function renderPlayList() {
             <tr id=${index}>
                 <td>${playListSongs.songs[i].id}</td>
                 <td>${playListSongs.songs[i].title}</td>                   
-                <td style="margin:auto ;text-align:center"> <button class="deleteBtn"  onclick="deleteSongFunction(${index})" id="remove-song"${index}><i class="fa-solid fa-minus fa-2xl"></i></i></i></button>
-                <button class="deleteBtn"  onclick="playSongFunction(${i})" id="play-song"${i}><i class="fa-solid fa-play fa-2xl"></i></i></i></button>
+                <td style="margin:auto ;text-align:center"> <button class="deleteBtn"  onclick="deleteSongFunction(${index})" id="remove-song"${index}><i class="fa-solid fa-minus fa-2xl"></i></button>
                 </td>
-     
-             
+                <td style="margin:auto ;text-align:center">
+            <button class="dd"  onclick="playSongFunction(${playListSongs.songs[i].id})" id="play-song"${i}><i class="fa-solid fa-play fa-2xl"></i></button> </td>
+         
             </tr>
         `;
 
@@ -466,8 +652,8 @@ async function renderPlayList() {
         */
 }
 
-function clearPlayList(j) {
-      console.log('hi' + i);
+async function clearPlayList(i) {
+    console.log('hi' + i);
     var index, table = document.getElementById('playlist');
 
     console.log('table.rows.length' + table.rows.length);
@@ -497,7 +683,8 @@ function deletefirstRow() {
 
 
     } catch (error) {
-        alert("You Should Login First");
+        //alert("You Should Login First");
+        console.log("delete not successfully");
     }
 
 
@@ -507,69 +694,36 @@ function deletefirstRow() {
 
 
 async function deleteSongFunction(i) {
-    let exit1=await validateTocken();
-    let exit=  await checkTockenTime();
-  if(exit==1 || exit1==1)
-  {
-      LogOut();
-  }
-  else{
+    let exit1 = await validateTocken();
+    let exit = await checkTockenTime();
+    if (exit == 1 || exit1 == 1) {
+        LogOut();
+    }
+    else
+        console.log("fffff");
+    await clearPlayList(i);
     await deleteSongFromPlayList(users.id, songs[i].id);
-    clearPlayList(i);
-  }
-
 
 }
 
-async function playSongFunction(i) {
-    
-    let exit1=await validateTocken();
-    let exit=  await checkTockenTime();
-  if(exit==1 || exit1==1)
-    {
-        LogOut();
-    }
-    else{
-    /*
-console.log("play song");
-    //  document.getElementById("source1").pause();
-      document.getElementById("source1").setAttribute('src', "../sound/Adele - Hello.mp3");
-      document.getElementById("source1").setAttribute('type', "audio/ogg");
-     
-      //document.getElementById("source1").load();
-      document.getElementById("source1").play();
-     
-   */
 
-      http://localhost:4040/
-      var audio = document.getElementById("musicplay");
-      var source = document.getElementById("source1");
-      console.log("helooss"+"./sound/"+songs[i].id);
-      source.src = "./sound/"+songs[i].id ;
-      source.type="audio/ogg";
-     //source.src = "./sound/Pharrell Williams - Happy.mp3" ;
-    
-     audio.load(); 
-      audio.play(); 
-    }
-  
-  
-  }
 
-  function cs_change_music(music)
-  {
-     
+
+
+
+function cs_change_music(music) {
+
     document.getElementById("my-audio").pause();
     document.getElementById("my-audio").setAttribute('src', music);
     document.getElementById("my-audio").load();
     document.getElementById("my-audio").play();
-  }
+}
 
 function SwitchButtons(buttonId) {
     var hideBtn, showBtn, hideBtn2;
 
 
-console.log("hhiiiiiiii");
+    console.log("hhiiiiiiii" + buttonId);
     let element = document.getElementById("userPrinted");
 
     //username
@@ -580,8 +734,8 @@ console.log("hhiiiiiiii");
 
 
     if (buttonId == 'logout-bttn') {
-        
-console.log("11111111111");
+
+        console.log("11111111111");
         console.log("yes");
         showBtn = 'logout-bttn';
         hideBtn = 'login-bttn';
@@ -639,70 +793,83 @@ function addTextNoelements() {
 
 async function checkTockenTime() {
     var today = new Date();
-    console.log('today'+today);
+    console.log('today' + today);
 
-    var tockendate =new Date (users.tokenCreatedDate);
-    console.log('tockendate'+tockendate);
+    var tockendate = new Date(users.tokenCreatedDate);
+    console.log('tockendate' + tockendate);
 
 
-var diffMs = (today - tockendate); // milliseconds between now & Christmas
-var diffDays = Math.floor(diffMs / 86400000); // days
-var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
-var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-if(diffDays>=2 || diffHrs>=2 || diffMins>=90)
-{
-    alert (" sorry session time out");
-    console.log("greater");
-    return 1;//logout
-    
+    var diffMs = (today - tockendate); // milliseconds between now & Christmas
+    var diffDays = Math.floor(diffMs / 86400000); // days
+    var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+    var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+    if (diffDays >=3|| diffHrs >=3 || diffMins >= 500) {
+        alert(" sorry session time out");
+        console.log("greater");
+        return 1;//logout
 
-}
-else
-{
 
-    console.log("less");
-    return 0; //continue
-}
+    }
+    else {
+
+        console.log("less");
+        return 0; //continue
+    }
 }
 
- function LogOut(){
-   
-  
-    
-
-    let usernameElement = document.getElementById('username');
-
-    let passwordElement = document.getElementById('password');
-let historystatus = localStorage.getItem('stausLoginHistory');
-let userName = localStorage.getItem("userName");
-let password = localStorage.getItem("password");
+function LogOut() {
 
 
-usernameElement = document.getElementById('username');
 
-     passwordElement = document.getElementById('password');
+
+
+
+
+    usernameElement = document.getElementById('username');
+
+    passwordElement = document.getElementById('password');
     historystatus = '';
-     userName = '';
-     password=''
+    userName = '';
+    password = ''
     usernameElement.value = "";
     passwordElement.value = "";
- 
+    savedPassword = "";
+
     const tbodyEl = document.getElementById("tb2");
 
     tbodyEl.innerHTML = ``;
-
+    stausLogin = "stausisLogout";
 
     SwitchButtons('login-bttn');
 
-    stausLogin = "stausisLogout";
+
 }
+
+function randomArray() {
+    let songArray=playListSongs;
+    for (var i = songArray.songs.length - 1; i > 0; i--) {
+    
+
+        var j = Math.floor(Math.random() * (i + 1));
+                    
+        var temp = songArray[i];
+        songArray[i] = songArray[j];
+        songArray[j] = temp;
+    }
+        currentSong=songArray.songs[0].id;
+        currentSongIndex=0;
+        playListSongs=songArray;
+    //return songArray;
+  }
+
+
 
 
 
 async function validateTocken() {
     var today = new Date();
-    console.log('today'+today);
-    
+    console.log('today' + today);
+
 
     let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
@@ -712,26 +879,27 @@ async function validateTocken() {
     usersTocken = await fetch(url).then(response => response.json());
 
 
-    var tockendate =new Date (usersTocken.tokenCreatedDate);
-    console.log('tockendate'+tockendate);
+    var tockendate = new Date(usersTocken.tokenCreatedDate);
+    console.log('tockendate' + tockendate);
 
 
-var diffMs = (today - tockendate); // milliseconds between now & Christmas
-var diffDays = Math.floor(diffMs / 86400000); // days
-var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
-var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-if(diffDays>=11 || diffHrs>=11 || diffMins>=180)
-{
-    alert (" sorry session time out");
-    console.log("big");
-    return 1;//logout
-    
+    var diffMs = (today - tockendate); // milliseconds between now & Christmas
+    var diffDays = Math.floor(diffMs / 86400000); // days
+    var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+    var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+    if (diffDays >= 11 || diffHrs >= 11 || diffMins >= 500) {
+        alert(" sorry session time out");
+        console.log("big");
+        return 1;//logout
 
+
+    }
+    else {
+
+        console.log("less");
+        return 0; //continue
+    }
 }
-else
-{
 
-    console.log("less");
-    return 0; //continue
-}
-}
+
+
