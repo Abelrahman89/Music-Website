@@ -6,6 +6,10 @@ exports.getByUserName=(req,res,next)=>{
 
     res.status(200).json(user.getByUserName(req.query.username,req.query.password));
 }
+exports.getByUserNameTocken=(req,res,next)=>{
+
+    res.status(200).json(user.getByUserNameTocken(req.query.username,req.query.password));
+}
 
 exports.update=(req,res,next)=>{
     console.log("update");

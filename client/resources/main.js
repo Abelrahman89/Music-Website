@@ -7,6 +7,7 @@ let firstSong = [{
 }];
 let stausLogin = "";
 let numberOflements = 0;
+
 window.onload = function () {
     let historystatus = localStorage.getItem('stausLoginHistory');
     let userName = localStorage.getItem("userName");
@@ -56,6 +57,26 @@ window.onload = function () {
     document.getElementById('logout-bttn').onclick = function (event) {
         //event.preventDefault();
         if (!document.getElementById('logout-bttn').dataset.id) {
+
+             tbodyE2 = document.getElementById("tb2");
+            tbodyE2.innerHTML = ``;
+             songs = [];
+             playListSongs = [];
+             users = [];
+             firstSong = [{
+                id: 00000,
+                title: "testetsts"
+            }];
+             numberOflements = 0;
+            console.log('sjhsjhjh');
+             usernameElement = document.getElementById('username');
+        
+             passwordElement = document.getElementById('password');
+            historystatus = '';
+             userName = '';
+             password=''
+            usernameElement.value = "";
+            passwordElement.value = "";
           LogOut();
         }
 
@@ -87,6 +108,8 @@ window.onbeforeunload = function () {
     localStorage.setItem("userName", users.username);
     localStorage.setItem("password", users.password);
     localStorage.setItem("stausLoginHistory", stausLogin);
+    localStorage.setItem("tokenCreatedDate", users.tokenCreatedDate);
+    localStorage.setItem("tokentext", users.tokentext);
     /* localStorage.setItem("userId", users.username);
      localStorage.setItem("userId", users.username);
      localStorage.setItem("userId", users.username);
@@ -201,6 +224,7 @@ async function getPlayListByUserId() {
 async function addSonginplayList(songId, songTitle) {
     console.log('uid' + playListSongs.userId);
     let cnt = 0;
+    console.log("numberOflements"+numberOflements);
     try {
         cnt = numberOflements;//playListSongs.songs.length;
     } catch (error) {
@@ -322,7 +346,12 @@ async function addSongFunction(i) {
         alert("You Should Login First");
     }
     else {
-        let cnt = await serchByuserAndSongId(users.id, songs[i].id);
+        let cnt =0;
+        try {
+            cnt= await serchByuserAndSongId(users.id, songs[i].id);
+        } catch (error) {
+            
+        }
 
         if (cnt > 0) {
             alert("sorry you added this song before");
@@ -427,7 +456,7 @@ async function renderPlayList() {
 }
 
 function clearPlayList(j) {
-    //  console.log('hi' + i);
+      console.log('hi' + i);
     var index, table = document.getElementById('playlist');
 
     console.log('table.rows.length' + table.rows.length);
@@ -575,19 +604,11 @@ else
 }
 
  function LogOut(){
-    let songs = [];
-    let playListSongs = [];
-    let users = [];
-    let firstSong = [{
-        id: 00000,
-        title: "testetsts"
-    }];
-    let numberOflements = 0;
-    console.log('sjhsjhjh');
+   
+  
+    
 
-    historystatus = '';
-    let userName = '';
-    let password=''
+
 
     SwitchButtons('login-bttn');
 

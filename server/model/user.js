@@ -43,6 +43,18 @@ module.exports = class User {
             throw console.error("Not Found");
         }
     }
+    static getByUserNameTocken(userName,password) {
+        //   console.log('userName'+userName);
+           let index = users.findIndex(b =>( b.username == userName && b.password==password));
+           
+           if (index > -1) {
+               let userTocken={id:users[index].id,username:users[index].username,tokenCreatedDate:users[index].tokenCreatedDate ,tokentext:users[index].tokentext};
+               return userTocken;
+           }
+           else {
+               throw console.error("Not Found");
+           }
+       }
    /* static getByName(userName) 
     {
         return users.filter(s => s.title.includes(userName)); 
