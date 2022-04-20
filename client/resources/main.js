@@ -107,7 +107,9 @@ window.onload = function () {
         }
     }
     document.getElementById("musicplay").addEventListener('ended', async function () {
-
+        if (users.length <= 0) {
+            alert("You Should Login First");
+        }
         console.log("play next song" + currentSong);
 
         await playNextSong();
@@ -115,37 +117,45 @@ window.onload = function () {
     });
 
     document.getElementById('nextSong').onclick = async function (event) {
-
+   
         event.preventDefault();
       
-
+        if (users.length <= 0) {
+            alert("You Should Login First");
+        }
+       else{
         if (!document.getElementById('nextSong').dataset.id) {
            
             playNextSong();
 
         }
+       }
     }
 
     document.getElementById('backSong').onclick = async function (event) {
-
+   
         event.preventDefault();
-      
+        if (users.length <= 0) {
+            alert("You Should Login First");
+        }
 
         if (!document.getElementById('backSong').dataset.id) {
            
-            await playPreviousSong();
+          await   playPreviousSong();
 
         }
     }
 
 
     document.getElementById('shuffle-bttn').onclick = async function (event) {
-
-        event.preventDefault();
       
+        event.preventDefault();
+        if (users.length <= 0) {
+            alert("You Should Login First");
+        }
 
         if (!document.getElementById('shuffle-bttn').dataset.id) {
-           
+           await  randomArray();
             await playSongFunction(currentSong);
 
         }
@@ -154,13 +164,19 @@ window.onload = function () {
     document.getElementById('normalSongList-bttn').onclick = async function (event) {
 
         event.preventDefault();
-      
+        if (users.length <= 0) {
+            alert("You Should Login First");
+        }
+        else{
 
         if (!document.getElementById('normalSongList-bttn').dataset.id) {
+            let tbodyE2 = document.getElementById("tb2");
+            tbodyE2.innerHTML = ``;
             await getPlayListByUserId();
             await playSongFunction(currentSong);
 
         }
+    }
     }
     
 
@@ -220,6 +236,8 @@ async function playSongFunction(i) {
         console.log("heloossfff" + "./sound/" + i);
         source.src = "./sound/" +i + ".mp3";
         source.type = "audio/ogg";
+        console.log("name"+playListSongs.songs[currentSongIndex].title);
+    document.getElementById("songName").innerText=playListSongs.songs[currentSongIndex].title;
         //source.src = "./sound/Pharrell Williams - Happy.mp3" ;
 
         audio.load();
@@ -252,6 +270,7 @@ currentSongIndex = i;
         console.log("heloossdddd" + "./sound/" + playListSongs.songs[i].id);
         source.src = "./sound/" + playListSongs.songs[i].id + ".mp3";
         source.type = "audio/ogg";
+        document.getElementById("songName").innerText=playListSongs.songs[i].title;
         //source.src = "./sound/Pharrell Williams - Happy.mp3" ;
 
         audio.load();
@@ -294,6 +313,7 @@ async function playPreviousSong() {
         console.log("helooss" + "./sound/" + playListSongs.songs[i].id);
         source.src = "./sound/" + playListSongs.songs[i].id + ".mp3";
         source.type = "audio/ogg";
+        document.getElementById("songName").innerText=playListSongs.songs[i].title;
         //source.src = "./sound/Pharrell Williams - Happy.mp3" ;
 
         audio.load();
@@ -399,9 +419,14 @@ async function getPlayListByUserId() {
     //let x=await fetch(url).then(response => response.json());
     //console.log("length"+playListSongs.songs.length);
     //console.log("lengthhhhh"+playListSongs.songs);
-
-
+try {
+    currentSong =playListSongs.songs[0].id;
+    currentSongIndex =0;
     renderPlayList();
+} catch (error) {
+    console.log("hh");
+}
+  
 
 
 }
@@ -803,7 +828,7 @@ async function checkTockenTime() {
     var diffDays = Math.floor(diffMs / 86400000); // days
     var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
     var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-    if (diffDays >=3|| diffHrs >=3 || diffMins >= 500) {
+    if (diffDays >=15|| diffHrs >=15 || diffMins >= 500) {
         alert(" sorry session time out");
         console.log("greater");
         return 1;//logout
@@ -845,19 +870,27 @@ function LogOut() {
 
 }
 
-function randomArray() {
+async function randomArray() {
     let songArray=playListSongs;
-    for (var i = songArray.songs.length - 1; i > 0; i--) {
+    for (let i = songArray.songs.length - 1; i > 0; i--) {
     
 
-        var j = Math.floor(Math.random() * (i + 1));
+        let j = Math.floor(Math.random() * (i + 1));
                     
-        var temp = songArray[i];
-        songArray[i] = songArray[j];
-        songArray[j] = temp;
+        let temp = songArray.songs[i];
+        songArray.songs[i] = songArray.songs[j];
+        songArray.songs[j] = temp;
+        
+    }
+    for (let  i = songArray.songs.length - 1; i > 0; i--) {
+    
+console.log( songArray.songs[i].title);
+        
     }
         currentSong=songArray.songs[0].id;
         currentSongIndex=0;
+        console.log('currentSorrrng'+currentSong);
+        console.log('rrrrrcurrentSongIndex'+currentSongIndex);
         playListSongs=songArray;
     //return songArray;
   }
@@ -887,7 +920,7 @@ async function validateTocken() {
     var diffDays = Math.floor(diffMs / 86400000); // days
     var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
     var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-    if (diffDays >= 11 || diffHrs >= 11 || diffMins >= 500) {
+    if (diffDays >= 11 && diffHrs >= 15 && diffMins >= 500) {
         alert(" sorry session time out");
         console.log("big");
         return 1;//logout
