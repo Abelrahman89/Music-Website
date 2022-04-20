@@ -20,8 +20,11 @@ module.exports = class User {
        /* users[index].token.createdDate="18-04-2022";
         users[index].token.tokentext="18-04-2022 new";
         */
-      // console.log(index);
+       console.log("this"+this.username);
+       console.log("this"+this.tokentext);
+     
         if (index > -1) {
+            console.log("index"+index);
             users.splice(index, 1, this);
          // users.push(this);
             return this;

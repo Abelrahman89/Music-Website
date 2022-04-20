@@ -108,6 +108,12 @@ async function login() {
     console.log('url' + url);
 
     users = await fetch(url).then(response => response.json());
+
+
+    /*var today = new Date();
+    users.tockendate=today;
+    */
+    
     if (users.username == username) {
         console.log("success");
         SwitchButtons('logout-bttn');
@@ -149,8 +155,8 @@ async function getSongs() {
                 <td>${songs[i].id}</td>
                 <td>${songs[i].title}</td>
                 <td>${songs[i].releaseDate}</td>
-                <td style="margin:auto">  <button class="btn btn-outline-success" onclick="addSongFunction(${i})" type="submit" id="add-song-${i}">add to playlist</button></td>
-             
+                <td style="margin:auto">  <button class="btn btn-outline-success" onclick="addSongFunction(${i})" type="submit" id="add-song-${i}"><i class="fa-solid fa-folder-plus fa-2xl"></i></button></td>
+               
             </tr>
         `;
 
@@ -280,7 +286,7 @@ async function searchBySongTitle() {
                 <td>${songs[i].id}</td>
                 <td>${songs[i].title}</td>
                 <td>${songs[i].releaseDate}</td>
-                <td style="margin:auto">  <button class="btn btn-outline-success" onclick="addSongFunction(${i})" type="submit" id="add-song-${i}">add to playlist</button></td>
+                <td style="margin:auto">  <button class="btn btn-outline-success" onclick="addSongFunction(${i})" type="submit" id="add-song-${i}"><i class="fa-solid fa-folder-plus fa-2xl"></i></button></td>
              
             </tr>
         `;
@@ -303,7 +309,13 @@ async function searchBySongTitle() {
 
 
 async function addSongFunction(i) {
-    await checkTockenTime();
+
+    let exit=  await checkTockenTime();
+  if(exit==1)
+  {
+      LogOut();
+  }
+  else{
   //SwitchButtons('logout-bttn');
     //  console.log('user' + users.length);
     if (users.length <= 0) {
@@ -335,7 +347,7 @@ async function addSongFunction(i) {
             <td>${songs[i].id}</td>
             <td>${songs[i].title}</td>
           
-            <td><button class="deleteBtn"  onclick="deleteSongFunction(${i})" id="remove-song"${i}>Delete</button></td>
+            <td><button class="deleteBtn"  onclick="deleteSongFunction(${i})" id="remove-song"${i}><i class="fa-solid fa-minus fa-2xl"></i></i></i></button></td>
         </tr>
     `;
         }
@@ -343,6 +355,7 @@ async function addSongFunction(i) {
         //getPlayListByUserIdwithoutRender();
         // console.log('read'+playListSongs[0].songs);
     }
+}
 }
 async function renderPlayList() {
     const tbodyE2 = document.getElementById("tb2");
@@ -362,7 +375,8 @@ async function renderPlayList() {
             <tr id=${index}>
                 <td>${playListSongs.songs[i].id}</td>
                 <td>${playListSongs.songs[i].title}</td>                   
-                <td><button class="deleteBtn"  onclick="deleteSongFunction(${index})" id="remove-song"${index}>Delete</button></td>
+                <td><button class="deleteBtn"  onclick="deleteSongFunction(${index})" id="remove-song"${index}><i class="fa-solid fa-minus fa-2xl"></i></i></i></button></td>
+     
              
             </tr>
         `;
@@ -450,9 +464,15 @@ function deletefirstRow() {
 
 }
 async function deleteSongFunction(i) {
-
+  let exit=  await checkTockenTime();
+  if(exit==1)
+  {
+      LogOut();
+  }
+  else{
     await deleteSongFromPlayList(users.id, songs[i].id);
     clearPlayList(i);
+  }
 
 
 }
@@ -472,6 +492,7 @@ function SwitchButtons(buttonId) {
 
 
     if (buttonId == 'logout-bttn') {
+        console.log("yes");
         showBtn = 'logout-bttn';
         hideBtn = 'login-bttn';
 
@@ -537,16 +558,19 @@ var diffMs = (today - tockendate); // milliseconds between now & Christmas
 var diffDays = Math.floor(diffMs / 86400000); // days
 var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
 var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-if(diffDays>=1 || diffHrs>=1 || diffMins>=1)
+if(diffDays>=1 || diffHrs>=1 || diffMins>=20)
 {
     alert (" sorry session time out");
     console.log("greater");
-    LogOut();
+    return 1;//logout
+    
 
 }
 else
 {
+
     console.log("less");
+    return 0; //continue
 }
 }
 
@@ -559,9 +583,13 @@ else
         title: "testetsts"
     }];
     let numberOflements = 0;
-    console.log('logout');
+    console.log('sjhsjhjh');
 
-    SwitchButtons('logout-bttn');
+    historystatus = '';
+    let userName = '';
+    let password=''
+
+    SwitchButtons('login-bttn');
 
     stausLogin = "stausisLogout";
 }

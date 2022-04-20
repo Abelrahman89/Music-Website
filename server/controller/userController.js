@@ -11,6 +11,6 @@ exports.update=(req,res,next)=>{
     console.log("update");
     const userBody=req.body;
     //console.log(req.body);
-    const newUser=new user(userBody.id, userBody.username,userBody.password,userBody.token).update();
+    const newUser=new user(userBody.id, userBody.username,userBody.password,userBody.tokenCreatedDate,userBody.tokentext).update();
     res.status(201).json(newUser);
 }
