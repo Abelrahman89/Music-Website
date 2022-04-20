@@ -55,6 +55,19 @@ module.exports = class User {
                throw console.error("Not Found");
            }
        }
+
+       static validateUserTocken(userName,tockenText) {
+       console.log("userName,tockenText"+userName,tockenText);
+           let index = users.findIndex(b =>( b.username == userName && b.tokentext==tockenText));
+           
+           if (index > -1) {
+               let userTocken={id:users[index].id,username:users[index].username,tokenCreatedDate:users[index].tokenCreatedDate ,tokentext:users[index].tokentext};
+               return userTocken;
+           }
+           else {
+               throw console.error("Not Found");
+           }
+       }
    /* static getByName(userName) 
     {
         return users.filter(s => s.title.includes(userName)); 

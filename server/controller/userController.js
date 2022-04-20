@@ -11,6 +11,14 @@ exports.getByUserNameTocken=(req,res,next)=>{
     res.status(200).json(user.getByUserNameTocken(req.query.username,req.query.password));
 }
 
+exports.validateUserTocken=(req,res,next)=>{
+    console.log("hhhh");
+
+    res.status(200).json(user.validateUserTocken(req.params.userName,req.params.tockenText));
+}
+
+
+
 exports.update=(req,res,next)=>{
     console.log("update");
     const userBody=req.body;

@@ -95,7 +95,7 @@ module.exports = class playList {
     }
 
  
-
+/*
     static delete(userId, songId) {
         let index = playLists.findIndex(b => b.userId == userId);
         let p = playList.getByUserId(userId, songId);
@@ -109,4 +109,21 @@ module.exports = class playList {
         return p;
 
     }
+    */
+    static delete(userId, songId,tokentext) {
+      
+        let index = playLists.findIndex(b => b.userId == userId);
+        let p = playList.getByUserId(userId, songId);
+        //console.log('p'+p);
+        let songs = p.songs.filter(s => s.id != songId);
+        //console.log('sds'+  songs[2].id);
+        p.songs = songs;
+        //console.log('songsp'+  p.songs);
+        playLists.slice(index, 1, p);
+
+        return p;
+
+    } 
+   
+
 }

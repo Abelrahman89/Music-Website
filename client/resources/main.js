@@ -1,6 +1,7 @@
 let songs = [];
 let playListSongs = [];
 let users = [];
+let usersTocken=[];
 let firstSong = [{
     id: 00000,
     title: "testetsts"
@@ -334,8 +335,13 @@ async function searchBySongTitle() {
 
 async function addSongFunction(i) {
 
+let exit1=await validateTocken();
     let exit=  await checkTockenTime();
-  if(exit==1)
+    if (users.length <= 0) {
+        alert("You Should Login First");
+    }
+    else{
+  if(exit==1 || exit1==1)
   {
       LogOut();
   }
@@ -376,7 +382,9 @@ async function addSongFunction(i) {
             <td>${songs[i].id}</td>
             <td>${songs[i].title}</td>
           
-            <td style="margin:auto ;text-align:center"> <button class="deleteBtn"  onclick="deleteSongFunction(${i})" id="remove-song"${i}><i class="fa-solid fa-minus fa-2xl"></i></i></i></button></td>
+            <td style="margin:auto ;text-align:center"> <button class="deleteBtn"  onclick="deleteSongFunction(${i})" id="remove-song"${i}><i class="fa-solid fa-minus fa-2xl"></i></i></i></button>
+            <button class="deleteBtn"  onclick="playSongFunction(${i})" id="play-song"${i}><i class="fa-solid fa-play fa-2xl"></i></i></i></button>
+            </td>
         </tr>
     `;
         }
@@ -385,6 +393,7 @@ async function addSongFunction(i) {
         // console.log('read'+playListSongs[0].songs);
     }
 }
+    }
 }
 async function renderPlayList() {
     const tbodyE2 = document.getElementById("tb2");
@@ -404,7 +413,9 @@ async function renderPlayList() {
             <tr id=${index}>
                 <td>${playListSongs.songs[i].id}</td>
                 <td>${playListSongs.songs[i].title}</td>                   
-                <td style="margin:auto ;text-align:center"> <button class="deleteBtn"  onclick="deleteSongFunction(${index})" id="remove-song"${index}><i class="fa-solid fa-minus fa-2xl"></i></i></i></button></td>
+                <td style="margin:auto ;text-align:center"> <button class="deleteBtn"  onclick="deleteSongFunction(${index})" id="remove-song"${index}><i class="fa-solid fa-minus fa-2xl"></i></i></i></button>
+                <button class="deleteBtn"  onclick="playSongFunction(${i})" id="play-song"${i}><i class="fa-solid fa-play fa-2xl"></i></i></i></button>
+                </td>
      
              
             </tr>
@@ -492,9 +503,13 @@ function deletefirstRow() {
 
 
 }
+
+
+
 async function deleteSongFunction(i) {
-  let exit=  await checkTockenTime();
-  if(exit==1)
+    let exit1=await validateTocken();
+    let exit=  await checkTockenTime();
+  if(exit==1 || exit1==1)
   {
       LogOut();
   }
@@ -506,11 +521,44 @@ async function deleteSongFunction(i) {
 
 }
 
+async function playSongFunction(i) {
+    
+    let exit1=await validateTocken();
+    let exit=  await checkTockenTime();
+  if(exit==1 || exit1==1)
+    {
+        LogOut();
+    }
+    else{
+    
+
+    //  document.getElementById("source1").pause();
+      document.getElementById("source1").setAttribute('src', "../sound/Adele - Hello.mp3");
+      document.getElementById("source1").setAttribute('type', "audio/ogg");
+     
+      //document.getElementById("source1").load();
+  //    document.getElementById("source1").play();
+     
+   
+    }
+  
+  
+  }
+
+  function cs_change_music(music)
+  {
+     
+    document.getElementById("my-audio").pause();
+    document.getElementById("my-audio").setAttribute('src', music);
+    document.getElementById("my-audio").load();
+    document.getElementById("my-audio").play();
+  }
+
 function SwitchButtons(buttonId) {
     var hideBtn, showBtn, hideBtn2;
 
 
-
+console.log("hhiiiiiiii");
     let element = document.getElementById("userPrinted");
 
     //username
@@ -521,6 +569,8 @@ function SwitchButtons(buttonId) {
 
 
     if (buttonId == 'logout-bttn') {
+        
+console.log("11111111111");
         console.log("yes");
         showBtn = 'logout-bttn';
         hideBtn = 'login-bttn';
@@ -540,6 +590,7 @@ function SwitchButtons(buttonId) {
 
 
     } else {
+        console.log("22222222222");
 
         showBtn = 'login-bttn';
         hideBtn = 'logout-bttn';
@@ -587,7 +638,7 @@ var diffMs = (today - tockendate); // milliseconds between now & Christmas
 var diffDays = Math.floor(diffMs / 86400000); // days
 var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
 var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
-if(diffDays>=1 || diffHrs>=1 || diffMins>=20)
+if(diffDays>=2 || diffHrs>=2 || diffMins>=90)
 {
     alert (" sorry session time out");
     console.log("greater");
@@ -608,9 +659,68 @@ else
   
     
 
+    let usernameElement = document.getElementById('username');
+
+    let passwordElement = document.getElementById('password');
+let historystatus = localStorage.getItem('stausLoginHistory');
+let userName = localStorage.getItem("userName");
+let password = localStorage.getItem("password");
+
+
+usernameElement = document.getElementById('username');
+
+     passwordElement = document.getElementById('password');
+    historystatus = '';
+     userName = '';
+     password=''
+    usernameElement.value = "";
+    passwordElement.value = "";
+ 
+    const tbodyEl = document.getElementById("tb2");
+
+    tbodyEl.innerHTML = ``;
 
 
     SwitchButtons('login-bttn');
 
     stausLogin = "stausisLogout";
+}
+
+
+
+async function validateTocken() {
+    var today = new Date();
+    console.log('today'+today);
+    
+
+    let username = document.getElementById('username').value;
+    let password = document.getElementById('password').value;
+    let url = 'http://localhost:4040/users/' + users.username + '/' + users.tokentext;
+    console.log('url' + url);
+
+    usersTocken = await fetch(url).then(response => response.json());
+
+
+    var tockendate =new Date (usersTocken.tokenCreatedDate);
+    console.log('tockendate'+tockendate);
+
+
+var diffMs = (today - tockendate); // milliseconds between now & Christmas
+var diffDays = Math.floor(diffMs / 86400000); // days
+var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+if(diffDays>=1 || diffHrs>=1 || diffMins>=1)
+{
+    alert (" sorry session time out");
+    console.log("big");
+    return 1;//logout
+    
+
+}
+else
+{
+
+    console.log("less");
+    return 0; //continue
+}
 }
